@@ -144,7 +144,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=TouhouEishushi
+CMAKE_PROJECT_NAME:STATIC=東方瀛洲誌 ~ Fairyland of Eastern Sea ~
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -213,6 +213,18 @@ TouhouEishushi_BINARY_DIR:STATIC=/home/junasaka/FairylandOfEasternSea/build
 
 //Value Computed by CMake
 TouhouEishushi_SOURCE_DIR:STATIC=/home/junasaka/FairylandOfEasternSea
+
+//Value Computed by CMake
+東方瀛洲誌 ~ Fairyland of Eastern Sea ~_BINARY_DIR:STATIC=/home/junasaka/FairylandOfEasternSea/build
+
+//Value Computed by CMake
+東方瀛洲誌 ~ Fairyland of Eastern Sea ~_SOURCE_DIR:STATIC=/home/junasaka/FairylandOfEasternSea
+
+//Value Computed by CMake
+東方瀛洲誌_BINARY_DIR:STATIC=/home/junasaka/FairylandOfEasternSea/build
+
+//Value Computed by CMake
+東方瀛洲誌_SOURCE_DIR:STATIC=/home/junasaka/FairylandOfEasternSea
 
 
 ########################
