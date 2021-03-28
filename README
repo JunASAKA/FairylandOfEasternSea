@@ -10,6 +10,7 @@ linux:
     make install with root
 
     write CMakeLists.txt(add_compile_options(-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl))
+    (target_link_libraries(main glfw3 GL m Xrandr Xi X11 pthread dl Xinerama Xcursor))
     write code
     cmake .
     make
