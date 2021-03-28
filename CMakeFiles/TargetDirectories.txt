@@ -1,3 +1,0 @@
-/home/junasaka/FairylandOfEasternSea/CMakeFiles/rebuild_cache.dir
-/home/junasaka/FairylandOfEasternSea/CMakeFiles/edit_cache.dir
-/home/junasaka/FairylandOfEasternSea/CMakeFiles/main.dir

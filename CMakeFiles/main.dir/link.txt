@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/main.dir/main.cpp.o  -o main  -lglfw3 -lGL -lm -lXrandr -lXi -lX11 -lpthread -ldl -lXinerama -lXcursor 
