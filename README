@@ -1,0 +1,17 @@
+linux:
+    download glfw source code
+    apt install libglfw3-dev buil-essential libxinerama-dev libxcursor-dev libxi-dev
+    mkdir build in glfw source code and cd into it
+    cmake ../
+    make
+    make install with root
+    download glew source code
+    make
+    make install with root
+
+    write CMakeLists.txt(add_compile_options(-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl))
+    write code
+    cmake .
+    make
+
+    run!
