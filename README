@@ -1,6 +1,6 @@
 linux:
     download glfw source code
-    apt install libglfw3-dev buil-essential libxinerama-dev libxcursor-dev libxi-dev
+    apt install libglfw3-dev build-essential camke libxinerama-dev libxcursor-dev libxi-dev
     mkdir build in glfw source code and cd into it
     cmake ../
     make
@@ -9,6 +9,8 @@ linux:
     make
     make install with root
 
+    sudo apt-get install mesa-common-dev
+    sudo apt-get install libgl1-mesa-dev libglu1-mesa-dev
     write CMakeLists.txt(add_compile_options(-lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl))
     (target_link_libraries(main glfw3 GL m Xrandr Xi X11 pthread dl Xinerama Xcursor))
     write code
