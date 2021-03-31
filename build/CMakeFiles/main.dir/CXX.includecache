@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/junasaka/FairylandOfEasternSea/main.cpp
+/root/FairylandOfEasternSea/main.cpp
 iostream
 -
 GL/glew.h

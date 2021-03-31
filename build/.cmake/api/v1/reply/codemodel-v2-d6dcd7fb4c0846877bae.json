@@ -18,7 +18,7 @@
 					]
 				}
 			],
-			"name" : "",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -38,7 +38,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "main::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-main-90498f8e973fe07a18fb.json",
+					"jsonFile" : "target-main-Debug-5bba63fdda09139eec43.json",
 					"name" : "main",
 					"projectIndex" : 0
 				}
@@ -48,8 +48,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/junasaka/FairylandOfEasternSea/build",
-		"source" : "/home/junasaka/FairylandOfEasternSea"
+		"build" : "/root/FairylandOfEasternSea/build",
+		"source" : "/root/FairylandOfEasternSea"
 	},
 	"version" : 
 	{

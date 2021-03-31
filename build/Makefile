@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/junasaka/FairylandOfEasternSea
+CMAKE_SOURCE_DIR = /root/FairylandOfEasternSea
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/junasaka/FairylandOfEasternSea/build
+CMAKE_BINARY_DIR = /root/FairylandOfEasternSea/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junasaka/FairylandOfEasternSea/build/CMakeFiles /home/junasaka/FairylandOfEasternSea/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/FairylandOfEasternSea/build/CMakeFiles /root/FairylandOfEasternSea/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/junasaka/FairylandOfEasternSea/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /root/FairylandOfEasternSea/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
