@@ -18,7 +18,7 @@ CMakeLists:
     add_compile_options(-lglfw3 -lGLEW -lGL -lGLU -lX11 -lpthread -lXrandr -lXi -ldl)
     target_link_libraries(main glfw3 GLEW GL m Xrandr Xi X11 pthread dl Xinerama Xcursor)
     
-    sudo ln -s /usr/lib64/libGLEW.so.2.1 /usr/lib/ 以解决libGLEW.so no such file or dir的问题which doesn't be caused in arm64。
+    sudo ln -s /usr/lib64/libGLEW.so.2.1 /usr/lib/ 以解决libGLEW.so no such file or dir的问题which doesn't occured in arm64。
 
     coding
     cmake（为方便整理，构建到build目录中）
