@@ -48,8 +48,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/root/FairylandOfEasternSea/build",
-		"source" : "/root/FairylandOfEasternSea"
+		"build" : "/home/junasaka/FairylandOfEasternSea/build",
+		"source" : "/home/junasaka/FairylandOfEasternSea"
 	},
 	"version" : 
 	{
