@@ -46,12 +46,14 @@ int main(){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);//ＧＬＦＷ亚版本号
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    /*创建一个窗体window*/
+    /*创建一个窗体*/
     GLFWwindow* window = glfwCreateWindow(1280, 960, "東方瀛洲誌 ~ Firyland of Eastern Sea ~", NULL, NULL);//创建窗体
     if(window == NULL){
         printf("窗体创建失败\n");
         glfwTerminate();//终止ＧＬＦＷ
         return -1;//返回－１暂且代表出错。
+    }else{
+        printf("窗体创建成功\n");
     }
     glfwMakeContextCurrent(window);//将ｗｉｎｄｏｗ作为当前进程的主要上下文。
 
@@ -61,6 +63,8 @@ int main(){
         printf("ＧＬＥＷ初始化失败\n");
         glfwTerminate();
         return -1;
+    }else{
+        printf("ＧＬＥＷ初始化成功\n");
     }
 
     glViewport(0, 0, 1280, 960);//指定渲染范围（起始点与范围）。
