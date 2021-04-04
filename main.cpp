@@ -73,6 +73,7 @@ int main(){
     unsigned int VAO, VBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     /*将定点数据导入ＶＢＯ*/
@@ -121,10 +122,13 @@ int main(){
     }else{
         printf("Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ设置成功\n");
     }
-    /*使能Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ并删除Ｓｈａｄｅｒ*/
-    glUseProgram(shaderProgram);
+    /*删除用过的Ｓｈａｄｅｒ*/
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader); 
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
 
     /*窗体window的任务*/
     while(!glfwWindowShouldClose(window)){
@@ -134,6 +138,11 @@ int main(){
         /*渲染*/
         glClearColor(1.0f, 0, 0, 1.0f);//指定清屏用颜色（RGBA）
         glClear(GL_COLOR_BUFFER_BIT);//指定清理的暂存区
+
+        /*使能Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ　并绘制*/
+        glUseProgram(shaderProgram);
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         /*接收事件与交换暂存区*/
         glfwSwapBuffers(window);//交换双暂存区
