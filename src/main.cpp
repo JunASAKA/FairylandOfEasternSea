@@ -7,17 +7,21 @@
 /*Ｖｅｒｔｅｘ　Ｓｈａｄｅｒ源代码*/
 const char *vertexShaderSource = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
+    "layout (location = 1) in vec3 aColour;\n"
+    "out vec3 outColour;\n"
     "void main()\n"
     "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "   gl_Position = vec4(aPos, 1.0f);\n"
+    "   outColour = aColour;\n "
     "}\0";
 
 /*Ｆｒａｇｍｅｎｔ　Ｓｈａｄｅｒ源代码*/
 const char *fragmentShaderSource = "#version 330 core\n"
+    "in vec3 outColour;\n"
     "out vec4 FragColor;\n"
     "void main()\n"
     "{\n"
-    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+    "   FragColor = vec4(outColour, 1.0f);\n"
     "}\n\0";
 
 /*事件处理函数之声明*/
@@ -35,9 +39,9 @@ int main(){
 
     /*定义定点数据*/
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+         0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+         0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f
     };  
 
     /*初始化ＧＬＦＷ*/
@@ -125,10 +129,11 @@ int main(){
     /*删除用过的Ｓｈａｄｅｒ*/
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader); 
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    /*将数据从ＶＢＯ导入ＶＡＯ*/
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3*sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     /*窗体window的任务*/
     while(!glfwWindowShouldClose(window)){
@@ -136,7 +141,7 @@ int main(){
         processInput(window);//处理输入（声明于上文）
 
         /*渲染*/
-        glClearColor(1.0f, 0, 0, 1.0f);//指定清屏用颜色（RGBA）
+        glClearColor(1.0f, 1.0f, 0, 1.0f);//指定清屏用颜色（RGBA）
         glClear(GL_COLOR_BUFFER_BIT);//指定清理的暂存区
 
         /*使能Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ　并绘制*/
