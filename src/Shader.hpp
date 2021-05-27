@@ -1,6 +1,10 @@
 #ifndef SHADER_H
 #define SHADER_H
 
+#define GLEW_STATIC
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include <string>
 
 class Shader {
@@ -13,5 +17,9 @@ public:
   unsigned int ShaderProgramID;
 
   void useShaderProgram();
+
+private:
+  void checkShaderError(GLuint id, std::string type);
+
 };
 #endif
