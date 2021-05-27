@@ -29,7 +29,7 @@ int main() {
 
   /*创建一个窗体*/
   GLFWwindow *window =
-      glfwCreateWindow(1280, 960, "東方瀛洲誌 ~ Firyland of Eastern Sea ~",
+      glfwCreateWindow(1280, 960, "東方瀛洲誌 ~ Fairyland of Eastern Sea ~",
                        NULL, NULL); //创建窗体
   if (window == NULL) {
     printf("窗体创建失败\n");
