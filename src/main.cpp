@@ -4,7 +4,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+
 #include "Shader.hpp"
+#include "Texture.hpp"
 
 /*事件处理函数之声明*/
 void processInput(GLFWwindow *window) {
@@ -19,12 +21,12 @@ int main() {
 
   /*定义定点数据*/
   float vertices[] = {
-    0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 
-    -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f
-
-  };
+    // positions          // colors           // texture coords
+     0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f, 1.0f,  1.0f, 1.0f,   // top right
+     0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f, 1.0f,  1.0f, 0.0f,   // bottom right
+    -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f,  0.0f, 0.0f,   // bottom left
+    -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f, 1.0f,  0.0f, 1.0f    // top left 
+};
   unsigned int indices[]{
     0,1,3,
     1,2,3
@@ -81,11 +83,15 @@ int main() {
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
   /*将数据从ＶＢＯ导入ＶＡＯ*/
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void *)0);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float),
+  glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 9 * sizeof(float),
                         (void *)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)(7 * sizeof(float)));
+  glEnableVertexAttribArray(2);
+
+  unsigned int texture = loadTexture("../src/assets/bg.png");
 
   /*窗体window的任务*/
   while (!glfwWindowShouldClose(window)) {
@@ -96,10 +102,14 @@ int main() {
     glClearColor(1.0f, 1.0f, 0, 1.0f); //指定清屏用颜色（RGBA）
     glClear(GL_COLOR_BUFFER_BIT);      //指定清理的暂存区
 
-    /*使能Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ　并绘制*/
+        background();
+
+    /*使能Ｓｈａｄｅｒ　Ｐｏｇｒａｍ　并绘制*/
+
     glBindVertexArray(VAO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glBindTexture(GL_TEXTURE_2D, texture);
     myShader.useShaderProgram();
+    
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     /*接收事件与交换暂存区*/
