@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.16) #cmake最低版本
+cmake_minimum_required(VERSION 3.20) #cmake最低版本
+SET(CMAKE_CXX_COMPILER "g++")
 project("東方瀛洲誌 ~ Fairyland of Eastern Sea ~") #Project name
 add_compile_options(-lglfw3 -lGLEW -lGL -lGLU -lX11 -lpthread -lXrandr -lXi -ldl)#编译选项，非紧急情况不要动。
 AUX_SOURCE_DIRECTORY(src DIR_SRCS)
