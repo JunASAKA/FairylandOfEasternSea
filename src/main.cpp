@@ -6,26 +6,6 @@
 
 #include "Shader.hpp"
 
-/*Ｖｅｒｔｅｘ　Ｓｈａｄｅｒ源代码*/
-const char *vertexShaderSource = "#version 330 core\n"
-                                 "layout (location = 0) in vec3 aPos;\n"
-                                 "layout (location = 1) in vec3 aColour;\n"
-                                 "out vec3 outColour;\n"
-                                 "void main()\n"
-                                 "{\n"
-                                 "   gl_Position = vec4(aPos, 1.0f);\n"
-                                 "   outColour = aColour;\n "
-                                 "}\0";
-
-/*Ｆｒａｇｍｅｎｔ　Ｓｈａｄｅｒ源代码*/
-const char *fragmentShaderSource = "#version 330 core\n"
-                                   "in vec3 outColour;\n"
-                                   "out vec4 FragColor;\n"
-                                   "void main()\n"
-                                   "{\n"
-                                   "   FragColor = vec4(outColour, 1.0f);\n"
-                                   "}\n\0";
-
 /*事件处理函数之声明*/
 void processInput(GLFWwindow *window) {
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) ==
@@ -75,7 +55,7 @@ int main() {
 
   glViewport(0, 0, 1280, 960); //指定渲染范围（起始点与范围）。
 
-  Shader give_me_a_name("../src/GLSL/vertexSource.glsl",
+  Shader myShader = Shader("../src/GLSL/vertexSource.glsl",
                         "../src/GLSL/fragmentSource.glsl");
 
   /*设置ＶＡＯ与ＶＢＯ*/
@@ -88,52 +68,6 @@ int main() {
   /*将定点数据导入ＶＢＯ*/
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-  /*设置与编译Ｖｅｒｔｅｘ　Ｓｈａｄｅｒ*/
-  unsigned int vertexShader;
-  vertexShader = glCreateShader(GL_VERTEX_SHADER);
-  glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-  glCompileShader(vertexShader);
-  /*Ｖｅｒｔｅｘ　Ｓｈａｄｅｒ编译纠错*/
-  glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-  if (!success) {
-    glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-    printf("Ｖｅｒｔｅｘ　Ｓｈａｄｅｒ编译错误： \n%s", infoLog);
-  } else {
-    printf("Ｖｅｒｔｅｘ　Ｓｈａｄｅｒ编译成功\n");
-  }
-
-  /*设置与编译Ｆｒａｇｍｅｎｔ　Ｓｈａｄｅｒ*/
-  unsigned int fragmentShader;
-  fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-  glCompileShader(fragmentShader);
-  /*Ｆｒａｇｍｅｎｔ　Ｓｈａｄｅｒ编译纠错*/
-  glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-  if (!success) {
-    glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-    printf("Ｆｒａｇｍｅｎｔ　Ｓｈａｄｅｒ编译错误： \n%s", infoLog);
-  } else {
-    printf("Ｆｒａｇｍｅｎｔ　Ｓｈａｄｅｒ编译成功\n");
-  }
-
-  /*创建Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ*/
-  unsigned int shaderProgram;
-  shaderProgram = glCreateProgram();
-  /*贴敷Ｓｈａｄｅｒ於Ｐｒｏｇｒａｍ*/
-  glAttachShader(shaderProgram, vertexShader);
-  glAttachShader(shaderProgram, fragmentShader);
-  glLinkProgram(shaderProgram);
-  /*Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ设置纠错*/
-  glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-  if (!success) {
-    glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-    printf("Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ设置错误： \n%s", infoLog);
-  } else {
-    printf("Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ设置成功\n");
-  }
-  /*删除用过的Ｓｈａｄｅｒ*/
-  glDeleteShader(vertexShader);
-  glDeleteShader(fragmentShader);
   /*将数据从ＶＢＯ导入ＶＡＯ*/
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
   glEnableVertexAttribArray(0);
@@ -151,7 +85,7 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);      //指定清理的暂存区
 
     /*使能Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ　并绘制*/
-    glUseProgram(shaderProgram);
+    myShader.useShaderProgram();
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 

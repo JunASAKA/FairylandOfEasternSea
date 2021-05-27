@@ -10,5 +10,8 @@ public:
   std::string fragmentStr;
   const char *vertexSource;
   const char *fragmentSource;
+  unsigned int ShaderProgramID;
+
+  void useShaderProgram();
 };
 #endif

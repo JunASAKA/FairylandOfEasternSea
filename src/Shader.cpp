@@ -3,10 +3,15 @@
 #include <sstream>
 #include <stdexcept>
 
+#define GLEW_STATIC
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include "Shader.hpp"
 
 Shader::Shader(const char *vertexPath, const char *fragmentPath) {
 
+/*读入ＧＬＳＬ源文件*/
   std::ifstream vertexFile;
   std::ifstream fragmentFile;
   std::stringstream vertexSStream;
@@ -32,9 +37,33 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath) {
     vertexSource = vertexStr.c_str();
     fragmentSource = fragmentStr.c_str();
 
-    printf("%s%s", vertexSource, fragmentSource);
+/*编译Ｓｈａｄｅｒ*/
+    unsigned int vertex, fragment;
+
+    vertex = glCreateShader(GL_VERTEX_SHADER);
+    fragment = glCreateShader(GL_FRAGMENT_SHADER);
+
+    glShaderSource(vertex, 1, &vertexSource, NULL);
+    glShaderSource(fragment, 1, &fragmentSource, NULL);
+
+    glCompileShader(vertex);
+    glCompileShader(fragment);
+    
+/*创建并连结Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ*/
+    ShaderProgramID = glCreateProgram();
+    glAttachShader(ShaderProgramID, vertex);
+    glAttachShader(ShaderProgramID, fragment);
+    glLinkProgram(ShaderProgramID);
+
+/*删除用过的Ｓｈａｄｅｒ*/
+    glDeleteShader(vertex);
+    glDeleteShader(fragment);
 
   } catch (std::ifstream::failure &e) {
     printf("%s", e.what());
   }
+}
+
+void Shader::useShaderProgram(){
+  glUseProgram(Shader::ShaderProgramID);
 }
