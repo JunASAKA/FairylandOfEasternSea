@@ -20,6 +20,5 @@ public:
 
 private:
   void checkShaderError(GLuint id, std::string type);
-
 };
 #endif

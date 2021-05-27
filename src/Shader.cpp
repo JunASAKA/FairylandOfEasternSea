@@ -3,12 +3,11 @@
 #include <sstream>
 #include <stdexcept>
 
-
 #include "Shader.hpp"
 
 Shader::Shader(const char *vertexPath, const char *fragmentPath) {
 
-/*读入ＧＬＳＬ源文件*/
+  /*读入ＧＬＳＬ源文件*/
   std::ifstream vertexFile;
   std::ifstream fragmentFile;
   std::stringstream vertexSStream;
@@ -34,7 +33,7 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath) {
     vertexSource = vertexStr.c_str();
     fragmentSource = fragmentStr.c_str();
 
-/*编译Ｓｈａｄｅｒ*/
+    /*编译Ｓｈａｄｅｒ*/
     unsigned int vertex, fragment;
 
     vertex = glCreateShader(GL_VERTEX_SHADER);
@@ -45,11 +44,11 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath) {
 
     glCompileShader(vertex);
     glCompileShader(fragment);
-    
+
     checkShaderError(vertex, "SHADER");
     checkShaderError(fragment, "SHADER"); //纠错
 
-/*创建并连结Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ*/
+    /*创建并连结Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ*/
     ShaderProgramID = glCreateProgram();
     glAttachShader(ShaderProgramID, vertex);
     glAttachShader(ShaderProgramID, fragment);
@@ -57,7 +56,7 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath) {
 
     checkShaderError(ShaderProgramID, "PROGRAM"); //纠错
 
-/*删除用过的Ｓｈａｄｅｒ*/
+    /*删除用过的Ｓｈａｄｅｒ*/
     glDeleteShader(vertex);
     glDeleteShader(fragment);
 
@@ -66,32 +65,29 @@ Shader::Shader(const char *vertexPath, const char *fragmentPath) {
   }
 }
 
-void Shader::useShaderProgram(){
-  glUseProgram(Shader::ShaderProgramID);
-}
+void Shader::useShaderProgram() { glUseProgram(Shader::ShaderProgramID); }
 
-void Shader::checkShaderError(GLuint id, std::string type){
+void Shader::checkShaderError(GLuint id, std::string type) {
   GLint success;
   GLchar errInfo[1024];
 
-  if(type == "PROGRAM"){
+  if (type == "PROGRAM") {
     glGetProgramiv(id, GL_LINK_STATUS, &success);
-    if(success){
+    if (success) {
       printf("Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ连结成功。\n");
-    }else{
+    } else {
       glGetProgramInfoLog(id, 1024, NULL, errInfo);
       printf("Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ连结出错：%s", errInfo);
     }
-  }else if(type == "SHADER"){
+  } else if (type == "SHADER") {
     glGetShaderiv(id, GL_COMPILE_STATUS, &success);
-    if(success){
+    if (success) {
       printf("Ｓｈａｄｅｒ编译成功。\n");
-    }else{
+    } else {
       glGetShaderInfoLog(id, 1024, NULL, errInfo);
       printf("Ｓｈａｄｅｒ编译出错：%s", errInfo);
     }
-  }else{
+  } else {
     printf("未知纠错目标类型：%s", type.c_str());
   }
-
 }

@@ -16,9 +16,6 @@ void processInput(GLFWwindow *window) {
 
 /*程式入口*/
 int main() {
-  /*后续纠错用*/
-  int success;
-  char infoLog[512];
 
   /*定义定点数据*/
   float vertices[] = {-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f, -0.5f, 0.0f,
@@ -56,7 +53,7 @@ int main() {
   glViewport(0, 0, 1280, 960); //指定渲染范围（起始点与范围）。
 
   Shader myShader = Shader("../src/GLSL/vertexSource.glsl",
-                        "../src/GLSL/fragmentSource.glsl");
+                           "../src/GLSL/fragmentSource.glsl");
 
   /*设置ＶＡＯ与ＶＢＯ*/
   unsigned int VAO, VBO;
