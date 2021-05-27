@@ -18,8 +18,17 @@ void processInput(GLFWwindow *window) {
 int main() {
 
   /*定义定点数据*/
-  float vertices[] = {-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f, -0.5f, 0.0f,
-                      0.0f,  1.0f,  0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f,  1.0f};
+  float vertices[] = {
+    0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 
+    -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+    0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f
+
+  };
+  unsigned int indices[]{
+    0,1,3,
+    1,2,3
+  };
 
   /*初始化ＧＬＦＷ*/
   glfwInit();
@@ -62,6 +71,12 @@ int main() {
   glBindVertexArray(VAO);
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+  /*设置ＥＢＯ*/
+  unsigned int EBO;
+  glGenBuffers(1, &EBO);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); 
+
   /*将定点数据导入ＶＢＯ*/
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
@@ -82,9 +97,10 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);      //指定清理的暂存区
 
     /*使能Ｓｈａｄｅｒ　Ｐｒｏｇｒａｍ　并绘制*/
-    myShader.useShaderProgram();
     glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    myShader.useShaderProgram();
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     /*接收事件与交换暂存区*/
     glfwSwapBuffers(window); //交换双暂存区
