@@ -14,8 +14,9 @@ unsigned int loadTexture(std::string texPath) {
   glGenTextures(1, &texture);
   glBindTexture(GL_TEXTURE_2D, texture);
   int width, height, nrChannels;
+  stbi_set_flip_vertically_on_load(true);
   unsigned char *data =
-    stbi_load(texPath.c_str(), &width, &height, &nrChannels, 0);
+      stbi_load(texPath.c_str(), &width, &height, &nrChannels, 0);
 
   if (data) {
 
