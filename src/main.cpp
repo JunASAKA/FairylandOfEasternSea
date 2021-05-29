@@ -89,8 +89,11 @@ int main() {
                         (void *)(7 * sizeof(float)));
   glEnableVertexAttribArray(2);
 
-  unsigned int texture = loadTexture("../src/assets/bg.png");
-  unsigned int bgVAO;
+ unsigned int texture = loadTexture("../src/assets/bg.png");
+
+  unsigned int bgTexture, bgVAO;
+
+  Shader myBgShader = prepareBackground(&bgTexture, &bgVAO);
 
   /*窗体window的任务*/
   while (!glfwWindowShouldClose(window)) {
@@ -101,7 +104,7 @@ int main() {
     glClearColor(1.0f, 1.0f, 0, 1.0f); //指定清屏用颜色（RGBA）
     glClear(GL_COLOR_BUFFER_BIT);      //指定清理的暂存区
 
-    background();
+    useBackground(&bgTexture, &bgVAO, myBgShader);
 
     /*使能Ｓｈａｄｅｒ　Ｐｏｇｒａｍ　并绘制*/
 

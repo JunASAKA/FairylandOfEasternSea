@@ -9,6 +9,7 @@
 #include "Shader.hpp"
 #include "Texture.hpp"
 
+
 unsigned int loadTexture(std::string texPath) {
   unsigned int texture;
   glGenTextures(1, &texture);
@@ -32,14 +33,14 @@ unsigned int loadTexture(std::string texPath) {
   stbi_image_free(data);
 }
 
-void background() {
-  Shader myShader = Shader("../src/GLSL/bgVertexSource.glsl",
+Shader prepareBackground(unsigned int *bgTexture, unsigned int *bgVAO) {
+  Shader myShader2 = Shader("../src/GLSL/bgVertexSource.glsl",
                            "../src/GLSL/bgFragmentSource.glsl");
-  unsigned int bgTexture = loadTexture("../src/assets/bg.png");
-  unsigned int bgVAO, bgVBO, bgEBO;
-  glGenVertexArrays(1, &bgVAO);
+  unsigned int bgTexture2 = loadTexture("../src/assets/bg.png");
+  unsigned int bgVAO2, bgVBO, bgEBO;
+  glGenVertexArrays(1, &bgVAO2);
   glGenBuffers(1, &bgVBO);
-  glBindVertexArray(bgVAO);
+  glBindVertexArray(bgVAO2);
   glBindBuffer(GL_ARRAY_BUFFER, bgVBO);
   glGenBuffers(1, &bgEBO);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bgEBO);
@@ -54,10 +55,18 @@ void background() {
                         (void *)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
-  glBindTexture(GL_TEXTURE_2D, bgTexture);
-  glBindVertexArray(bgVAO);
+  *bgVAO = bgVAO2;
+  *bgTexture = bgTexture2;
+
+  printf("背景准备成功。\n");
+
+  return myShader2;
+}
+
+void useBackground(unsigned int *bgTexture, unsigned int *bgVAO, Shader myShader) {
+  glBindTexture(GL_TEXTURE_2D, *bgTexture);
+  glBindVertexArray(*bgVAO);
   myShader.useShaderProgram();
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
   return;
 }
