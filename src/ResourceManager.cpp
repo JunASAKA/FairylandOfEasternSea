@@ -1,6 +1,6 @@
-#define STB_IMAGE_IMPLEMENTATIO
-#include "include/stb_image.hpp"
 #include "include/ResourceManager.hpp"
+#define STB_IMAGE_IMPLEMENTATION
+#include "include/stb_image.hpp"
 
 #include <fstream>
 #include <iostream>

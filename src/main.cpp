@@ -4,19 +4,12 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "include/ResourceManager.hpp"
 #include "include/game.hpp"
+#include "include/ResourceManager.hpp"
 
-/*事件处理函数之声明*/
-void processInput(GLFWwindow *window) {
-  if (glfwGetKey(window, GLFW_KEY_ESCAPE) ==
-      GLFW_PRESS) {                         //判定ESCAPE键是否按下
-    glfwSetWindowShouldClose(window, true); //标记窗体window应该关闭
-  }
-}
+
 
 /*宣告ＧＬＦＷ有关函数*/
-void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void key_callback(GLFWwindow *window, int key, int scancode, int action,
                   int mode);
 
@@ -68,8 +61,12 @@ int main() {
     std::cout << "【信息】：ＧＬＥＷ初始化成功" << std::endl;
   }
 
+
+
+	glewExperimental = GL_TRUE;
+    glewInit();
+    glGetError();
   glfwSetKeyCallback(window, key_callback);
-  glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
   glViewport(0, 0, SCREEN_WIDTH,
              SCREEN_HEIGHT); //指定渲染范围（起始点与范围）。
@@ -79,6 +76,8 @@ int main() {
   FairylandOfEasternSea.Init();
   float deltaTime = 0.0f;
   float lastFrame = 0.0f;
+
+	FairylandOfEasternSea.State = GAME_ACTIVE;
 
   /*设置ＶＡＯ与ＶＢＯ*/
   unsigned int VAO, VBO;
@@ -121,19 +120,39 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);         //指定清理的暂存区
     FairylandOfEasternSea.Render();
 
-    glfwSwapBuffers(window); //交换双暂存区
 
-    processInput(window); //处理输入（声明于上文）
 
-    glClearColor(1.0f, 1.0f, 0, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
+    
+    
 
     /*使能Ｓｈａｄｅｒ　Ｐｏｇｒａｍ　并绘制*/
     glBindVertexArray(VAO);
     ResourceManager::GetShader("myShader").Use();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    
+        glfwSwapBuffers(window); //交换双暂存区
   }
 
+	ResourceManager::Clear();
+
+    glfwTerminate();
+	
   return 0; //返回值０代表正常退出。
+}
+
+
+  
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+    
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    if (key >= 0 && key < 1024)
+    {
+        if (action == GLFW_PRESS)
+            FairylandOfEasternSea.Keys[key] = GL_TRUE;
+        else if (action == GLFW_RELEASE)
+            FairylandOfEasternSea.Keys[key] = GL_FALSE;
+    }
 }
