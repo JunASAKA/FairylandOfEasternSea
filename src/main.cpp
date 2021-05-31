@@ -7,8 +7,6 @@
 #include "include/game.hpp"
 #include "include/ResourceManager.hpp"
 
-
-
 /*宣告ＧＬＦＷ有关函数*/
 void key_callback(GLFWwindow *window, int key, int scancode, int action,
                   int mode);
@@ -19,15 +17,15 @@ const unsigned int SCREEN_HEIGHT = 960;
 Game FairylandOfEasternSea(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 /*程式入口*/
-int main() {
+int main()
+{
 
   /*定义定点数据*/
   float vertices[] = {
-      0.5f,  0.5f,  0.0f,
-      0.5f,  -0.5f, 0.0f,
+      0.5f, 0.5f, 0.0f,
+      0.5f, -0.5f, 0.0f,
       -0.5f, -0.5f, 0.0f,
-      -0.5f, 0.5f,  0.0f
-  };
+      -0.5f, 0.5f, 0.0f};
   unsigned int indices[]{0, 1, 3, 1, 2, 3};
 
   /*初始化ＧＬＦＷ*/
@@ -42,42 +40,46 @@ int main() {
   GLFWwindow *window = glfwCreateWindow(
       SCREEN_WIDTH, SCREEN_HEIGHT, "東方瀛洲誌 ~ Fairyland of Eastern Sea ~",
       nullptr, nullptr); //创建窗体
-  if (window == NULL) {
+  if (window == NULL)
+  {
     std::cout << "【错误】：窗体创建失败" << std::endl;
     glfwTerminate(); //终止ＧＬＦＷ
     return -1;       //返回－１暂且代表出错。
-  } else {
+  }
+  else
+  {
     std::cout << "【信息】：窗体创建成功" << std::endl;
   }
   glfwMakeContextCurrent(window); //将ｗｉｎｄｏｗ作为当前进程的主要上下文。
 
   /*初始化ＧＬＥＷ*/
   glewExperimental = true; //启用ＧＬＥＷ实验性功能
-  if (glewInit() != GLEW_OK) {
+  if (glewInit() != GLEW_OK)
+  {
     std::cout << "【错误】：ＧＬＥＷ初始化失败" << std::endl;
     glfwTerminate();
     return -1;
-  } else {
+  }
+  else
+  {
     std::cout << "【信息】：ＧＬＥＷ初始化成功" << std::endl;
   }
 
-
-
-	glewExperimental = GL_TRUE;
-    glewInit();
-    glGetError();
+  glewExperimental = GL_TRUE;
+  glewInit();
+  glGetError();
   glfwSetKeyCallback(window, key_callback);
 
   glViewport(0, 0, SCREEN_WIDTH,
-             SCREEN_HEIGHT); //指定渲染范围（起始点与范围）。
-  glEnable(GL_BLEND); //启用混合功能
+             SCREEN_HEIGHT);                         //指定渲染范围（起始点与范围）。
+  glEnable(GL_BLEND);                                //启用混合功能
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //混合因子
 
   FairylandOfEasternSea.Init();
   float deltaTime = 0.0f;
   float lastFrame = 0.0f;
 
-	FairylandOfEasternSea.State = GAME_ACTIVE;
+  FairylandOfEasternSea.State = GAME_ACTIVE;
 
   /*设置ＶＡＯ与ＶＢＯ*/
   unsigned int VAO, VBO;
@@ -100,10 +102,11 @@ int main() {
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
   glEnableVertexAttribArray(0);
 
-  ResourceManager::LoadShader("../src/GLSL/vertexSource.glsl", "../src/GLSL/fragmentSource.glsl", GLM_NULLPTR,"myShader");
+  ResourceManager::LoadShader("../src/GLSL/vertexSource.glsl", "../src/GLSL/fragmentSource.glsl", GLM_NULLPTR, "myShader");
 
   /*窗体window的任务*/
-  while (!glfwWindowShouldClose(window)) {
+  while (!glfwWindowShouldClose(window))
+  {
 
     float currentFrame = glfwGetTime();
     deltaTime = currentFrame - lastFrame;
@@ -120,39 +123,31 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);         //指定清理的暂存区
     FairylandOfEasternSea.Render();
 
-
-
-    
-    
-
     /*使能Ｓｈａｄｅｒ　Ｐｏｇｒａｍ　并绘制*/
     glBindVertexArray(VAO);
     ResourceManager::GetShader("myShader").Use();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    
-        glfwSwapBuffers(window); //交换双暂存区
+
+    glfwSwapBuffers(window); //交换双暂存区
   }
 
-	ResourceManager::Clear();
+  ResourceManager::Clear();
 
-    glfwTerminate();
-	
+  glfwTerminate();
+
   return 0; //返回值０代表正常退出。
 }
 
-
-  
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mode)
 {
-    
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
-    if (key >= 0 && key < 1024)
-    {
-        if (action == GLFW_PRESS)
-            FairylandOfEasternSea.Keys[key] = GL_TRUE;
-        else if (action == GLFW_RELEASE)
-            FairylandOfEasternSea.Keys[key] = GL_FALSE;
-    }
+
+  if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+    glfwSetWindowShouldClose(window, GL_TRUE);
+  if (key >= 0 && key < 1024)
+  {
+    if (action == GLFW_PRESS)
+      FairylandOfEasternSea.Keys[key] = GL_TRUE;
+    else if (action == GLFW_RELEASE)
+      FairylandOfEasternSea.Keys[key] = GL_FALSE;
+  }
 }
