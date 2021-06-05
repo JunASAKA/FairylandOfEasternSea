@@ -1,7 +1,11 @@
-#version 330 core
-layout (location = 0) in vec3 aPos;
+version 330 core
+layout (location = 0) in vec4 vertex;
 
-void main()
+out vec2 TexCoords;
+
+uniform mat4 Model;
+uniform mat4 Projection;
 {
-    gl_Position = vec4(aPos, 1.0);
+    TexCoords = vertex.zw;
+        gl_Position = projection * model * vec4(vertex.xy, 0.0, 1.0);
 }
