@@ -23,7 +23,7 @@ void game::init() {
     resourceManager::getShader("sprite").use().setInteger("image", 0);
     resourceManager::getShader("sprite").setMatrix4("projection", projection);
     /*加载纹理*/
-    resourceManager::loadTexture("../src/assets/bg.png", true, "bg");
+    resourceManager::loadTexture("../src/assets/reimu.png", true, 0,0,32,48,"bg");
     /*渲染*/
     Renderer = new spriteRenderer(resourceManager::getShader("sprite"));
 
@@ -35,5 +35,5 @@ void game::update(float dt) {}
 void game::processInput(float dt) {}
 
 void game::render() {
-    Renderer->drawSprite(resourceManager::getTexture("bg"), glm::vec2(200, 200), glm::vec2(300, 400), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+    Renderer->drawSprite(resourceManager::getTexture("bg"), glm::vec2(200, 200), glm::vec2(300, 400), 0.0f, glm::vec3(1.0f));
 }
