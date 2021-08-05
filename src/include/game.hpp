@@ -1,26 +1,26 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef GAME_HPP
+#define GAME_HPP
 
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 /*游戏状态（后续添加）*/
-enum GameState { GAME_ACTIVE, GAME_MENU, GAME_END };
+enum gameState { GAME_ACTIVE, GAME_MENU, GAME_END };
 
-class Game {
+class game {
    public:
     /*信息*/
-    GameState State;
+    gameState State;
     bool Keys[1024];
     unsigned int Width, Height;
-    Game(unsigned int width, unsigned int height);  //建构函数
-    ~Game();					    //解构函数
-    void Init();				    //初始化
+    game(unsigned int width, unsigned int height);  //建构函数
+    ~game();					    //解构函数
+    void init();				    //初始化
     /*游戏循环*/
-    void ProcessInput(float dt);
-    void Update(float dt);
-    void Render();
+    void processInput(float dt);
+    void update(float dt);
+    void render();
 };
 
 #endif
