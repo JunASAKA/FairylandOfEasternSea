@@ -48,6 +48,9 @@ void game::processInput(float dt) {
         float velocity = PC_VELOCITY * dt;
         // 控制
         //TODO: 边界控制
+        if (this->Keys[GLFW_KEY_LEFT_SHIFT]||this->Keys[GLFW_KEY_RIGHT_SHIFT]){
+            velocity = velocity * 0.5f;
+        }
         if (this->Keys[GLFW_KEY_LEFT])
         {
             if (PlayableCharacter->position.x >= 0.0f)
