@@ -28,6 +28,7 @@ public:
     void generate(unsigned int width, unsigned int height, unsigned char* data);
     // 将纹理与激活的GL_TEXTURE_2D绑定
     const void bind();
+    
 };
 
 #endif

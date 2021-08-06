@@ -20,14 +20,10 @@ void game::init() {
     /*配置Iro iro no Trans or scale矩阵与着色器*/
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->Width), 
         static_cast<float>(this->Height), 0.0f, -1.0f, 1.0f);
-    glm::mat4 identity(1.0f);
-    glm::mat4 texScale = glm::scale(identity,glm::vec3(0.00390625f*59.0f,0.00390625f*59.0f,1.0f));
-    glm::mat4 texTrans = glm::translate(identity,glm::vec3(0.00390625f*2.0f,0.00390625f*194.0f,0.0f));
-    
+   
+   
     resourceManager::getShader("sprite").use().setInteger("image", 0);
     resourceManager::getShader("sprite").setMatrix4("projection", projection);
-    resourceManager::getShader("sprite").setMatrix4("texScale",texScale);
-    resourceManager::getShader("sprite").setMatrix4("texTrans",texTrans);
     /*加载纹理*/
     resourceManager::loadTexture("../src/assets/reimu.png", true, "PlayableCharacter");
     /*渲染*/
@@ -41,5 +37,7 @@ void game::update(float dt) {}
 void game::processInput(float dt) {}
 
 void game::render() {
-    Renderer->drawSprite(resourceManager::getTexture("PlayableCharacter"), glm::vec2(1221,0), glm::vec2(59, 59), 0.0f, glm::vec3(1.0f));
+    //参数：texture 位置坐标 大小 贴图坐标 贴图大小 贴图原图大小 【旋转】【颜色】
+    Renderer->drawSprite(resourceManager::getTexture("PlayableCharacter"), glm::vec2(0,0), glm::vec2(960, 960),glm::vec2(3.0f,195.0f),glm::vec2(59.0f,59.0f),glm::vec2(256.0f,256.0f));
+    
 }
