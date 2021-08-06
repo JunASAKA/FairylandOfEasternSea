@@ -16,6 +16,7 @@ void spriteRenderer::drawSprite(texture2D texture, glm::vec2 position, glm::vec2
 {
     // prepare transformations
     this->shader.use();
+    size = glm::vec2(size.x, size.y * 4.0f / 3.0f);//防止贴图被拉伸为四比三。
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));  // first translate (transformations are: scale happens first, then rotation, and then final translation happens; reversed order)
 

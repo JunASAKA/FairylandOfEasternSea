@@ -101,6 +101,12 @@ void shader::setMatrix4(const char *name, const glm::mat4 &matrix, bool useShade
         this->use();
     glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(matrix));
 }
+void shader::setMatrix2(const char *name, const glm::mat2 &matrix, bool useShader)
+{
+    if (useShader)
+        this->use();
+    glUniformMatrix2fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(matrix));
+}
 
 
 void shader::checkCompileErrors(unsigned int object, std::string type)

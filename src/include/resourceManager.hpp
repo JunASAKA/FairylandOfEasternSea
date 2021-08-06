@@ -12,7 +12,8 @@
 #include "shader.hpp"
 #include "texture.hpp"
 
-class resourceManager {
+class resourceManager
+{
 public:
   // 用于储存的静态变量
   static std::map<std::string, shader> shaders;
@@ -23,7 +24,7 @@ public:
   // 读取已储存的着色器
   static shader getShader(std::string name);
   // 从图片加载纹理并储存
-  static texture2D loadTexture(const char *file, bool alpha, int startX, int startY, int endX, int endY, std::string name);
+  static texture2D loadTexture(const char *file, bool alpha, std::string name);
   // 读取已储存的纹理
   static texture2D getTexture(std::string name);
   // 删除所有已储存的资源
@@ -37,8 +38,7 @@ private:
                                    const char *fShaderFile,
                                    const char *gShaderFile = nullptr);
   // 从图片加载纹理
-  static texture2D loadTextureFromFile(const char *file, bool alpha,
-                                       int startX, int startY, int endX, int endY);
+  static texture2D loadTextureFromFile(const char *file, bool alpha);
 };
 
 #endif

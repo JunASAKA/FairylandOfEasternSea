@@ -12,25 +12,28 @@ std::map<std::string, shader> resourceManager::shaders;
 
 shader resourceManager::loadShader(const char *vShaderFile,
                                    const char *fShaderFile,
-                                   const char *gShaderFile, std::string name) {
+                                   const char *gShaderFile, std::string name)
+{
   shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
   return shaders[name];
 }
 
 shader resourceManager::getShader(std::string name) { return shaders[name]; }
 
-texture2D resourceManager::loadTexture(const char *file, bool alpha, int startX,
-                                       int startY, int endX, int endY,
-                                       std::string name) {
-  textures[name] = loadTextureFromFile(file, alpha, startX, startY, endX, endY);
+texture2D resourceManager::loadTexture(const char *file, bool alpha,
+                                       std::string name)
+{
+  textures[name] = loadTextureFromFile(file, alpha);
   return textures[name];
 }
 
-texture2D resourceManager::getTexture(std::string name) {
+texture2D resourceManager::getTexture(std::string name)
+{
   return textures[name];
 }
 
-void resourceManager::clear() {
+void resourceManager::clear()
+{
   // 删除已储存的着色器
   for (auto iter : shaders)
     glDeleteProgram(iter.second.ID);
@@ -41,12 +44,14 @@ void resourceManager::clear() {
 
 shader resourceManager::loadShaderFromFile(const char *vShaderFile,
                                            const char *fShaderFile,
-                                           const char *gShaderFile) {
+                                           const char *gShaderFile)
+{
 
   std::string vertexCode;
   std::string fragmentCode;
   std::string geometryCode;
-  try {
+  try
+  {
     // 标记打开文件
     std::ifstream vertexShaderFile(vShaderFile);
     std::ifstream fragmentShaderFile(fShaderFile);
@@ -61,14 +66,17 @@ shader resourceManager::loadShaderFromFile(const char *vShaderFile,
     vertexCode = vShaderStream.str();
     fragmentCode = fShaderStream.str();
     // 处理可有可无的几何着色器源码
-    if (gShaderFile != nullptr) {
+    if (gShaderFile != nullptr)
+    {
       std::ifstream geometryShaderFile(gShaderFile);
       std::stringstream gShaderStream;
       gShaderStream << geometryShaderFile.rdbuf();
       geometryShaderFile.close();
       geometryCode = gShaderStream.str();
     }
-  } catch (std::exception e) {
+  }
+  catch (std::exception e)
+  {
     std::cout << "【ERROR】シェーダーのソースコードファイルを読み取れない。"
               << std::endl;
   }
@@ -82,35 +90,22 @@ shader resourceManager::loadShaderFromFile(const char *vShaderFile,
   return shader;
 }
 
-texture2D resourceManager::loadTextureFromFile(const char *file, bool alpha,
-                                               int startX, int startY, int endX,
-                                               int endY) {
+texture2D resourceManager::loadTextureFromFile(const char *file, bool alpha)
+{
   // 创建纹理
   texture2D texture;
-  if (alpha) {
+  if (alpha)
+  {
     texture.Internal_Format = GL_RGBA;
     texture.Image_Format = GL_RGBA;
   }
   // 加载图像
   int width, height, nrChannels;
   unsigned char *data = stbi_load(file, &width, &height, &nrChannels, 0);
-  unsigned char dataFin[(endX-startX)*(endY-startY)*nrChannels];
 
-//TODO:截取给定像素范围！！！！！！！！1
-
-  for(int x = 0; x <= endX-startX; x++){
-      for(int y = 0; y<= endY-startY; y++){
-          dataFin[(endX-startX)*y+x+0] = data[width*(startY+y)+startX+x+0];
-          dataFin[(endX-startX)*y+x+1] = data[width*(startY+y)+startX+x+1];
-          dataFin[(endX-startX)*y+x+2] = data[width*(startY+y)+startX+x+2];
-          if(alpha){
-              dataFin[(endX-startX)*y+x+3] = data[width*(startY+y)+startX+x+3];
-          }
-      }
-  }
-      // 生成纹理
-      texture.generate((endX-startX), (endY-startY), dataFin);
-      //texture.generate(width, height, data);
+  // 生成纹理
+  //texture.generate((endX-startX), (endY-startY), dataFin);
+  texture.generate(width, height, data);
   // 释放图像
   stbi_image_free(data);
   //stbi_image_free(dataFin);
