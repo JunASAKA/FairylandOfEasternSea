@@ -12,11 +12,11 @@ spriteRenderer::~spriteRenderer()
     glDeleteVertexArrays(1, &this->quadVAO);
 }
 
-void spriteRenderer::drawSprite(texture2D texture, glm::vec2 position, glm::vec2 size, glm::vec2 texPos, glm::vec2 texSize, glm::vec2 imageSize, float rotate, glm::vec3 color)
+void spriteRenderer::drawSprite(texture2D texture, glm::vec2 position, glm::vec2 size, glm::vec2 texPos, glm::vec2 texSize, glm::vec2 imageSize, float rotate, glm::vec3 colour)
 {
-    // prepare transformations
+
     this->shader.use();
-    size = glm::vec2(size.x * 3.0f / 4.0f, size.y);//防止贴图被拉伸为四比三。
+    //size = glm::vec2(size.x * 3.0f / 4.0f, size.y);//防止贴图被拉伸为四比三。
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(position, 0.0f));  // first translate (transformations are: scale happens first, then rotation, and then final translation happens; reversed order)
 
@@ -36,7 +36,7 @@ void spriteRenderer::drawSprite(texture2D texture, glm::vec2 position, glm::vec2
 
 
     // render textured quad
-    this->shader.setVector3f("spriteColor", color);
+    this->shader.setVector3f("spriteColor", colour);
 
     glActiveTexture(GL_TEXTURE0);
     texture.bind();

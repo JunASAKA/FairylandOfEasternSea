@@ -6,8 +6,8 @@
 #include <GLFW/glfw3.h>
 
 /*游戏状态（后续添加）*/
-enum gameState { GAME_ACTIVE, GAME_MENU, GAME_END };
-
+enum gameState { GAME_ACTIVE, GAME_MENU, GAME_END, GAME_PAUSE };
+const float PC_VELOCITY(250.0f); //自机速率
 class game {
    public:
     /*信息*/
