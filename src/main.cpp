@@ -33,21 +33,21 @@ int main() {
       nullptr, nullptr); //创建窗体
   glfwMakeContextCurrent(window); //将ｗｉｎｄｏｗ作为当前进程的主要上下文。
   if (window == NULL) {
-    std::cout << "【ERROR】：ウィンドウの作成に失敗する。" << std::endl;
+    std::cout << "[ERROR]:Failed to setup the window." << std::endl;
     glfwTerminate(); //终止ＧＬＦＷ
     return -1;       //返回－１暂且代表出错。
   } else {
-    std::cout << "【告】：ウィンドウの作成に成功する。" << std::endl;
+    std::cout << "[Info]:Windows has been setup successfully." << std::endl;
   }
 
   /*初始化ＧＬＥＷ*/
   glewExperimental = true; //启用ＧＬＥＷ实验性功能
   if (glewInit() != GLEW_OK) {
-    std::cout << "【ERROR】：GLEWの初期化に失敗する。" << std::endl;
+    std::cout << "[ERROR]:Failes to initilize GLEW" << std::endl;
     glfwTerminate();
     return -1;
   } else {
-    std::cout << "【告】：GLEWの初期化に成功する。" << std::endl;
+    std::cout << "[Info]:GLEW has been inited successfully." << std::endl;
   }
   glfwSetKeyCallback(window, key_callback);
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
