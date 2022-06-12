@@ -2,8 +2,8 @@
 #define SPRITE_RENDERER_HPP
 
 #include <GL/glew.h>
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include "glm/glm/glm.hpp"
+#include "glm/glm/gtc/matrix_transform.hpp"
 
 #include "texture.hpp"
 #include "shader.hpp"
