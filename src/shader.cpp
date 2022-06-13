@@ -119,7 +119,7 @@ void shader::checkCompileErrors(unsigned int object, std::string type)
         if (!success)
         {
             glGetShaderInfoLog(object, 1024, NULL, infoLog);
-            std::cout << "| 【ERROR】シェーダーのコンパイル中にエラーが発生する、エラーオブジェクトタイプは" << type << std::endl
+            std::cout << "| [ERROR]Something went run when COMPILING Shader、エラーオブジェクトタイプは" << type << std::endl
                 << infoLog<< std::endl << "---------------------------------------------------------- "
                 << std::endl;
         }
@@ -130,7 +130,7 @@ void shader::checkCompileErrors(unsigned int object, std::string type)
         if (!success)
         {
             glGetProgramInfoLog(object, 1024, NULL, infoLog);
-            std::cout << "| 【ERROR】シェーダーのリンク中にエラーが発生する、エラーオブジェクトタイプは" << type << std::endl
+            std::cout << "| [ERROR]Something went run when LINKING Shader、エラーオブジェクトタイプは" << type << std::endl
                 << infoLog << std::endl <<"---------------------------------------------------------- "
                 << std::endl;
         }

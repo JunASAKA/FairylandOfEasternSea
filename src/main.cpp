@@ -14,7 +14,12 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action,
 const unsigned int SCREEN_WIDTH = 640;
 const unsigned int SCREEN_HEIGHT = 480;
 
-game FairylandOfEasternSea(SCREEN_WIDTH, SCREEN_HEIGHT);
+const unsigned int PLAYABLE_ZONE_X = 32; //自机移动范围左上角座标
+const unsigned int PLAYABLE_ZONE_Y = 16;//自机移动范围左上角座标
+const unsigned int PLAYABLE_WIDTH = 385;
+const unsigned int PLAYABLE_HEIGHT = 451;
+
+game FairylandOfEasternSea(SCREEN_WIDTH, SCREEN_HEIGHT, PLAYABLE_ZONE_X, PLAYABLE_ZONE_Y, PLAYABLE_WIDTH, PLAYABLE_HEIGHT);
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 /*程式入口*/
 int main() {
@@ -37,7 +42,7 @@ int main() {
     glfwTerminate(); //终止ＧＬＦＷ
     return -1;       //返回－１暂且代表出错。
   } else {
-    std::cout << "[Info]:Windows has been setup successfully." << std::endl;
+    std::cout << "[Info]:Window has been setup successfully." << std::endl;
   }
 
   /*初始化ＧＬＥＷ*/

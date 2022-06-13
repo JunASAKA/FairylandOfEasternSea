@@ -7,8 +7,8 @@ spriteRenderer *Renderer;
 gameObject *PlayableCharacter; //自机，非判定点
 
 /*建构函数，指定信息*/
-game::game(unsigned int width, unsigned int height)
-    : State(GAME_ACTIVE), Keys(), Width(width), Height(height) {}
+game::game(unsigned int width, unsigned int height, unsigned int playable_zone_x, unsigned int playable_zone_y, unsigned int playable_width, unsigned int playable_hight)
+    : State(GAME_ACTIVE), Keys(), Width(width), Height(height), Playable_Zone_X(playable_zone_x), Playable_Zone_Y(playable_zone_y), Playable_Width(playable_width), Playable_Hight(playable_hight) {}
 
 game::~game()
 {
@@ -40,37 +40,38 @@ void game::init()
                                       static_cast<float>(this->Height)/10),resourceManager::getTexture("PlayableCharacter"),glm::vec2(0,0),glm::vec2(32.0f,48.0f),glm::vec2(256.0f,256.0f));
 }
 
-void game::update(float dt) {}
+void game::update(float delta_t) {}
 
-void game::processInput(float dt) {
+void game::processInput(float delta_t) {
     if (this->State == GAME_ACTIVE)
     {
-        float velocity = PC_VELOCITY * dt;
+        float velocity = PC_VELOCITY * delta_t;
         // 控制
-        //TODO: 边界控制
+
         if (this->Keys[GLFW_KEY_LEFT_SHIFT]||this->Keys[GLFW_KEY_RIGHT_SHIFT]){
             velocity = velocity * 0.5f;
         }
         if (this->Keys[GLFW_KEY_LEFT])
         {
-            if (PlayableCharacter->position.x >= 0.0f)
+            if (PlayableCharacter->position.x >= this->Playable_Zone_X)
                 PlayableCharacter->position.x -= velocity;
         }
         if (this->Keys[GLFW_KEY_RIGHT])
         {
-            if (PlayableCharacter->position.x <= this->Width - PlayableCharacter->size.x)
+            if (PlayableCharacter->position.x <= this->Playable_Zone_X + Playable_Width - PlayableCharacter->size.x)//边界控制：似乎自机左上角一点为自机座标。
                 PlayableCharacter->position.x += velocity;
         }
         if (this->Keys[GLFW_KEY_UP])
         {
-            if (PlayableCharacter->position.y >= 0.0f)
+            if (PlayableCharacter->position.y >= this->Playable_Zone_Y)
                 PlayableCharacter->position.y -= velocity;
         }
         if (this->Keys[GLFW_KEY_DOWN])
         {
-            if (PlayableCharacter->position.y <= this->Height - PlayableCharacter->size.y)
+            if (PlayableCharacter->position.y <= this->Playable_Zone_Y + Playable_Hight - PlayableCharacter->size.y)
                 PlayableCharacter->position.y += velocity;
         }
+
     }
 }
 

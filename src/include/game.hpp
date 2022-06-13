@@ -13,13 +13,13 @@ class game {
     /*信息*/
     gameState State;
     bool Keys[1024];
-    unsigned int Width, Height;
-    game(unsigned int width, unsigned int height);  //建构函数
+    unsigned int Width, Height, Playable_Zone_X, Playable_Zone_Y, Playable_Width, Playable_Hight;
+    game(unsigned int width, unsigned int height, unsigned int playable_zone_x, unsigned int playable_zone_y, unsigned int playable_width, unsigned int playable_hight);  //建构函数
     ~game();					    //解构函数
     void init();				    //初始化
     /*游戏循环*/
-    void processInput(float dt);
-    void update(float dt);
+    void processInput(float delta_t);
+    void update(float delta_t);
     void render();
 };
 
