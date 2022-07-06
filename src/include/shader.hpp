@@ -15,7 +15,7 @@ class shader
 {
 public:
     // ID
-    unsigned int ID; 
+    uint32_t ID;
     // 建构函数
     shader();
     // 使用（激活）着色器
@@ -24,7 +24,7 @@ public:
     void    compile(const char *vertexSource, const char *fragmentSource, const char *geometrySource = nullptr); // note: geometry source code is optional 
     // 实用工具
     void    setFloat    (const char *name, float value, bool useShader = false);
-    void    setInteger  (const char *name, int value, bool useShader = false);
+    void    setInteger32  (const char *name, int32_t value, bool useShader = false);
     void    setVector2f (const char *name, float x, float y, bool useShader = false);
     void    setVector2f (const char *name, const glm::vec2 &value, bool useShader = false);
     void    setVector3f (const char *name, float x, float y, float z, bool useShader = false);
@@ -35,7 +35,7 @@ public:
     void    setMatrix2(const char *name, const glm::mat2 &matrix, bool useShader = false);
 private:
     // 纠错用
-    void    checkCompileErrors(unsigned int object, std::string type); 
+    void    checkCompileErrors(uint32_t object, std::string type);
 };
 
 #endif

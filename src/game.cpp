@@ -7,7 +7,7 @@ spriteRenderer *Renderer;
 gameObject *PlayableCharacter; //自机，非判定点
 
 /*建构函数，指定信息*/
-game::game(unsigned int width, unsigned int height, unsigned int playable_zone_x, unsigned int playable_zone_y, unsigned int playable_width, unsigned int playable_hight)
+game::game(uint32_t width, uint32_t height, uint32_t playable_zone_x, uint32_t playable_zone_y, uint32_t playable_width, uint32_t playable_hight)
     : State(GAME_ACTIVE), Keys(), Width(width), Height(height), Playable_Zone_X(playable_zone_x), Playable_Zone_Y(playable_zone_y), Playable_Width(playable_width), Playable_Hight(playable_hight) {}
 
 game::~game()
@@ -25,7 +25,7 @@ void game::init()
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->Width),
                                       static_cast<float>(this->Height), 0.0f, -1.0f, 1.0f);
 
-    resourceManager::getShader("sprite").use().setInteger("image", 0);
+    resourceManager::getShader("sprite").use().setInteger32("image", 0);
     resourceManager::getShader("sprite").setMatrix4("projection", projection);
     /*加载纹理*/
     resourceManager::loadTexture("../src/assets/reimu.png", true, "PlayableCharacter");
@@ -40,12 +40,12 @@ void game::init()
                                       static_cast<float>(this->Height)/10),resourceManager::getTexture("PlayableCharacter"),glm::vec2(0,0),glm::vec2(32.0f,48.0f),glm::vec2(256.0f,256.0f));
 }
 
-void game::update(float delta_t) {}
+void game::update(float delta_time) {}
 
-void game::processInput(float delta_t) {
+void game::processInput(float delta_time) {
     if (this->State == GAME_ACTIVE)
     {
-        float velocity = PC_VELOCITY * delta_t;
+        float velocity = PC_VELOCITY * delta_time;
         // 控制
 
         if (this->Keys[GLFW_KEY_LEFT_SHIFT]||this->Keys[GLFW_KEY_RIGHT_SHIFT]){
@@ -80,7 +80,7 @@ void game::render()
     //参数：texture 位置坐标 大小 贴图坐标 贴图大小 贴图原图大小 【旋转】【颜色】
     //Renderer->drawSprite(resourceManager::getTexture("PlayableCharacter"), glm::vec2(320, 32), glm::vec2(static_cast<float>(this->Width)/20,
     //                                  static_cast<float>(this->Height)/10), glm::vec2(0.0f, 0.0f), glm::vec2(32.0f, 48.0f), glm::vec2(256.0f, 256.0f));
-    
+
     if(this->State == GAME_ACTIVE)
     {
         // background

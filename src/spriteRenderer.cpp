@@ -49,12 +49,12 @@ void spriteRenderer::drawSprite(texture2D texture, glm::vec2 position, glm::vec2
 void spriteRenderer::initRenderData()
 {
     // 设置VAO与VBO
-    unsigned int VBO;
-    float vertices[] = { 
+    uint32_t VBO;
+    float vertices[] = {
         // pos      // tex
         0.0f, 1.0f, 0.0f, 1.0f,
         1.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 
+        0.0f, 0.0f, 0.0f, 0.0f,
 
         0.0f, 1.0f, 0.0f, 1.0f,
         1.0f, 1.0f, 1.0f, 1.0f,

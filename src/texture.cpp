@@ -11,7 +11,7 @@ texture2D::texture2D()
     glGenTextures(1, &this->ID);
 }
 
-void texture2D::generate(unsigned int width, unsigned int height, unsigned char* data)
+void texture2D::generate(uint32_t width, uint32_t height, unsigned char* data)
 {
     this->Width = width;
     this->Height = height;

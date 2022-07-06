@@ -100,7 +100,7 @@ texture2D resourceManager::loadTextureFromFile(const char *file, bool alpha)
     texture.Image_Format = GL_RGBA;
   }
   // 加载图像
-  int width, height, nrChannels;
+  int32_t width, height, nrChannels;
   unsigned char *data = stbi_load(file, &width, &height, &nrChannels, 0);
 
   // 生成纹理

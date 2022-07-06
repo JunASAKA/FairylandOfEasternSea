@@ -8,19 +8,19 @@
 #include "include/resourceManager.hpp"
 
 /*宣告ＧＬＦＷ有关函数*/
-void key_callback(GLFWwindow *window, int key, int scancode, int action,
-                  int mode);
+void key_callback(GLFWwindow *window, int32_t key, int32_t scancode, int32_t action,
+                  int32_t mode);
 
-const unsigned int SCREEN_WIDTH = 640;
-const unsigned int SCREEN_HEIGHT = 480;
+const uint32_t SCREEN_WIDTH = 640;
+const uint32_t SCREEN_HEIGHT = 480;
 
-const unsigned int PLAYABLE_ZONE_X = 32; //自机移动范围左上角座标
-const unsigned int PLAYABLE_ZONE_Y = 16;//自机移动范围左上角座标
-const unsigned int PLAYABLE_WIDTH = 385;
-const unsigned int PLAYABLE_HEIGHT = 451;
+const uint32_t PLAYABLE_ZONE_X = 32; //自机移动范围左上角座标
+const uint32_t PLAYABLE_ZONE_Y = 16;//自机移动范围左上角座标
+const uint32_t PLAYABLE_WIDTH = 385;
+const uint32_t PLAYABLE_HEIGHT = 451;
 
 game FairylandOfEasternSea(SCREEN_WIDTH, SCREEN_HEIGHT, PLAYABLE_ZONE_X, PLAYABLE_ZONE_Y, PLAYABLE_WIDTH, PLAYABLE_HEIGHT);
-void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+void framebuffer_size_callback(GLFWwindow *window, int32_t width, int32_t height);
 /*程式入口*/
 int main() {
 
@@ -48,7 +48,7 @@ int main() {
   /*初始化ＧＬＥＷ*/
   glewExperimental = true; //启用ＧＬＥＷ实验性功能
   if (glewInit() != GLEW_OK) {
-    std::cout << "[ERROR]:Failes to initilize GLEW" << std::endl;
+    std::cout << "[ERROR]:Failed to initilize GLEW" << std::endl;
     glfwTerminate();
     return -1;
   } else {
@@ -96,8 +96,8 @@ int main() {
   return 0; //返回值０代表正常退出。
 }
 
-void key_callback(GLFWwindow *window, int key, int scancode, int action,
-                  int mode) {
+void key_callback(GLFWwindow *window, int32_t key, int32_t scancode, int32_t action,
+                  int32_t mode) {
   if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
     glfwSetWindowShouldClose(window, GL_TRUE);
   if (key >= 0 && key < 1024) {
@@ -107,7 +107,7 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action,
       FairylandOfEasternSea.Keys[key] = GL_FALSE;
   }
 }
-void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
+void framebuffer_size_callback(GLFWwindow *window, int32_t width, int32_t height) {
   /*保证ｖｉｅｗ　ｐｏｉｎｔ与窗体大小吻合*/
   glViewport(0, 0, width, height);
 }

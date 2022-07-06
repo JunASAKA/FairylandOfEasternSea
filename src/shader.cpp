@@ -13,7 +13,7 @@ shader::shader(){}
 
 void shader::compile(const char* vertexSource, const char* fragmentSource, const char* geometrySource)
 {
-    unsigned int sVertex, sFragment, gShader;
+    uint32_t sVertex, sFragment, gShader;
     // 顶点着色器
     sVertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(sVertex, 1, &vertexSource, NULL);
@@ -53,7 +53,7 @@ void shader::setFloat(const char *name, float value, bool useShader)
         this->use();
     glUniform1f(glGetUniformLocation(this->ID, name), value);
 }
-void shader::setInteger(const char *name, int value, bool useShader)
+void shader::setInteger32(const char *name, int value, bool useShader)
 {
     if (useShader)
         this->use();
@@ -109,9 +109,9 @@ void shader::setMatrix2(const char *name, const glm::mat2 &matrix, bool useShade
 }
 
 
-void shader::checkCompileErrors(unsigned int object, std::string type)
+void shader::checkCompileErrors(uint32_t object, std::string type)
 {
-    int success;
+    int32_t success;
     char infoLog[1024];
     if (type != "PROGRAM")
     {

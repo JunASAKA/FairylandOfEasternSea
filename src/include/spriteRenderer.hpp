@@ -20,7 +20,7 @@ public:
 
 private:
     class shader shader;
-    unsigned int quadVAO;
+    uint32_t quadVAO;
     // 初始化并配置渲染属性
     void initRenderData();
 };
