@@ -9,9 +9,9 @@ shader &shader::use()
     return *this;
 }
 
-shader::shader(){}
+shader::shader() {}
 
-void shader::compile(const char* vertexSource, const char* fragmentSource, const char* geometrySource)
+void shader::compile(const char *vertexSource, const char *fragmentSource, const char *geometrySource)
 {
     uint32_t sVertex, sFragment, gShader;
     // 顶点着色器
@@ -37,77 +37,122 @@ void shader::compile(const char* vertexSource, const char* fragmentSource, const
     glAttachShader(this->ID, sVertex);
     glAttachShader(this->ID, sFragment);
     if (geometrySource != nullptr)
+    {
         glAttachShader(this->ID, gShader);
+    }
     glLinkProgram(this->ID);
     checkCompileErrors(this->ID, "PROGRAM");
     // 删除已连结的着色器
     glDeleteShader(sVertex);
     glDeleteShader(sFragment);
     if (geometrySource != nullptr)
+    {
         glDeleteShader(gShader);
+    }
+
+    return;
 }
 
 void shader::setFloat(const char *name, float value, bool useShader)
 {
     if (useShader)
+    {
         this->use();
+    }
     glUniform1f(glGetUniformLocation(this->ID, name), value);
+
+    return;
 }
 void shader::setInteger32(const char *name, int value, bool useShader)
 {
     if (useShader)
+    {
         this->use();
+    }
     glUniform1i(glGetUniformLocation(this->ID, name), value);
+
+    return;
 }
 void shader::setVector2f(const char *name, float x, float y, bool useShader)
 {
     if (useShader)
+    {
         this->use();
+    }
     glUniform2f(glGetUniformLocation(this->ID, name), x, y);
+
+    return;
 }
 void shader::setVector2f(const char *name, const glm::vec2 &value, bool useShader)
 {
     if (useShader)
+    {
         this->use();
+    }
     glUniform2f(glGetUniformLocation(this->ID, name), value.x, value.y);
+
+    return;
 }
 void shader::setVector3f(const char *name, float x, float y, float z, bool useShader)
 {
     if (useShader)
+    {
         this->use();
+    }
     glUniform3f(glGetUniformLocation(this->ID, name), x, y, z);
+
+    return;
 }
 void shader::setVector3f(const char *name, const glm::vec3 &value, bool useShader)
 {
     if (useShader)
+    {
         this->use();
+    }
     glUniform3f(glGetUniformLocation(this->ID, name), value.x, value.y, value.z);
+
+    return;
 }
 void shader::setVector4f(const char *name, float x, float y, float z, float w, bool useShader)
 {
     if (useShader)
+    {
         this->use();
+    }
     glUniform4f(glGetUniformLocation(this->ID, name), x, y, z, w);
+
+    return;
 }
 void shader::setVector4f(const char *name, const glm::vec4 &value, bool useShader)
 {
     if (useShader)
+    {
         this->use();
+    }
     glUniform4f(glGetUniformLocation(this->ID, name), value.x, value.y, value.z, value.w);
+
+    return;
 }
 void shader::setMatrix4(const char *name, const glm::mat4 &matrix, bool useShader)
 {
     if (useShader)
+    {
         this->use();
+    }
     glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(matrix));
+
+    return;
 }
 void shader::setMatrix2(const char *name, const glm::mat2 &matrix, bool useShader)
 {
     if (useShader)
+    {
         this->use();
+    }
     glUniformMatrix2fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(matrix));
-}
 
+    return;
+}
 
 void shader::checkCompileErrors(uint32_t object, std::string type)
 {
@@ -120,8 +165,9 @@ void shader::checkCompileErrors(uint32_t object, std::string type)
         {
             glGetShaderInfoLog(object, 1024, NULL, infoLog);
             std::cout << "| [ERROR]Something went run when COMPILING Shader、エラーオブジェクトタイプは" << type << std::endl
-                << infoLog<< std::endl << "---------------------------------------------------------- "
-                << std::endl;
+                      << infoLog << std::endl
+                      << "---------------------------------------------------------- "
+                      << std::endl;
         }
     }
     else
@@ -131,8 +177,11 @@ void shader::checkCompileErrors(uint32_t object, std::string type)
         {
             glGetProgramInfoLog(object, 1024, NULL, infoLog);
             std::cout << "| [ERROR]Something went run when LINKING Shader、エラーオブジェクトタイプは" << type << std::endl
-                << infoLog << std::endl <<"---------------------------------------------------------- "
-                << std::endl;
+                      << infoLog << std::endl
+                      << "---------------------------------------------------------- "
+                      << std::endl;
         }
     }
+
+    return;
 }
