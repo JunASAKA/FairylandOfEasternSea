@@ -22,10 +22,10 @@ class game
 {
 public:
     /*信息*/
-    gameState State;
-    bool Keys[1024];
-    uint32_t Width, Height, Playable_Zone_X, Playable_Zone_Y, Playable_Width, Playable_Hight;
-    game(uint32_t width, uint32_t height, uint32_t playable_zone_x, uint32_t playable_zone_y, uint32_t playable_width, uint32_t playable_hight); //建构函数
+    gameState state;
+    bool keys[1024];
+    uint32_t width, height, playableZoneX, playableZoneY, playableWidth, playableHight;
+    game(uint32_t width, uint32_t height, uint32_t playableZoneX, uint32_t playableZoneY, uint32_t playableWidth, uint32_t playableHight); //建构函数
     ~game();                                                                                                                                     //解构函数
     void init();                                                                                                                                 //初始化
     /*游戏循环*/
@@ -36,4 +36,7 @@ public:
     uint32_t stage;
 
     void doCollisionCheck();
+
+    void rstPC();
+    void rstStage();
 };

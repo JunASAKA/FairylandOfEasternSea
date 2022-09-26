@@ -69,7 +69,7 @@ void gameStage::init(std::vector<std::vector<uint32_t>> stageData, uint32_t stag
     {
         for (uint32_t x = 0; x < width; ++x)
         {
-            // 检测是否是不可摧毁第
+            // 检测是否是不可摧毁的
             if (stageData[y][x] == 1) // 不可摧毁
             {
                 glm::vec2 pos(unitWidth * x, unitHeight * y);

@@ -3,23 +3,25 @@
 collision physics::collisionCheck(onmyouDama &one, gameObject &two) // AABB - Circle collision
 {
     // 取得圆心
-    glm::vec2 center(one.position + one.radius);
+    glm::vec2 centre(one.position + one.radius);
     // 计算矩形半长和中心
-    glm::vec2 aabb_half_extents(two.size.x / 2.0f, two.size.y / 2.0f);
-    glm::vec2 aabb_center(
-        two.position.x + aabb_half_extents.x,
-        two.position.y + aabb_half_extents.y);
+    glm::vec2 aabbHalfExt(two.size.x / 2.0f, two.size.y / 2.0f);
+    glm::vec2 aabbCentre(
+        two.position.x + aabbHalfExt.x,
+        two.position.y + aabbHalfExt.y);
     // 差向量
-    glm::vec2 difference = center - aabb_center;
-    glm::vec2 clamped = glm::clamp(difference, -aabb_half_extents, aabb_half_extents); // 取最小
+    glm::vec2 difference = centre - aabbCentre;
+    glm::vec2 clamped = glm::clamp(difference, -aabbHalfExt, aabbHalfExt); // 取最小
     // 圆与矩形最近点
-    glm::vec2 closest = aabb_center + clamped;
-    // 计算圆心与最近点第距离
-    difference = closest - center;
+    glm::vec2 closest = aabbCentre + clamped;
+    // 计算圆心与最近点的距离
+    difference = closest - centre;
     // return glm::length(difference) < one.radius;
 
     if (glm::length(difference) <= one.radius)
     {
+        std::cout << "圆心：(" << centre.x << "," << centre.y << ")\t"
+                  << "差向量：(" << difference.x << "," << difference.y << ")\t" << std::endl;
         return std::make_tuple(true, vectorDirection(difference), difference);
     }
     else
@@ -47,5 +49,7 @@ direction physics::vectorDirection(glm::vec2 target)
             bestMatch = i;
         }
     }
+
+    std::cout << "碰撞方向：" << (direction)bestMatch << std::endl;
     return (direction)bestMatch;
 }

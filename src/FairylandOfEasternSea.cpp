@@ -52,7 +52,7 @@ int main()
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
 
-    FairylandOfEasternSea.State = GAME_ACTIVE;
+    FairylandOfEasternSea.state = GAME_ACTIVE;
 
     /*窗体window的任务*/
     while (!glfwWindowShouldClose(window))
@@ -87,16 +87,24 @@ void key_callback(GLFWwindow *window, int32_t key, int32_t scancode, int32_t act
                   int32_t mode)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+    {
+        std::cout << "Escape received!" << std::endl;
         glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+
+    // if(key==GLFW_KEY_R&&action == GLFW_PRESS){
+        
+    // }
+
     if (key >= 0 && key < 1024)
     {
         if (action == GLFW_PRESS)
         {
-            FairylandOfEasternSea.Keys[key] = GL_TRUE;
+            FairylandOfEasternSea.keys[key] = GL_TRUE;
         }
         else if (action == GLFW_RELEASE)
         {
-            FairylandOfEasternSea.Keys[key] = GL_FALSE;
+            FairylandOfEasternSea.keys[key] = GL_FALSE;
         }
     }
 

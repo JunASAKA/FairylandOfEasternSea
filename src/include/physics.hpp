@@ -1,4 +1,7 @@
+#pragma once
+
 #include <tuple>
+#include <iostream>
 
 #include "gameObject.hpp"
 #include "onmyouDama.hpp"

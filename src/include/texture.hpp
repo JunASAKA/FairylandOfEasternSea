@@ -10,7 +10,7 @@ public:
     // ID
     uint32_t ID;
     // 材质大小
-    uint32_t Width, Height;
+    uint32_t width, height;
     // 格式
     uint32_t Internal_Format; // 内部材质对象
     uint32_t Image_Format;    // 材质图片

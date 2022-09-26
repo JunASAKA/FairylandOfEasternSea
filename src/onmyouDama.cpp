@@ -14,22 +14,22 @@ glm::vec2 onmyouDama::move(float deltaT, uint32_t windowWidth)
         // 与边界碰撞
         if (this->position.x <= 0.0f)
         {
-            this->velocity.x = -this->velocity.x;
+            this->velocity.x *= -1;
             this->position.x = 0.0f;
         }
         else if (this->position.x + this->size.x >= windowWidth)
         {
-            this->velocity.x = -this->velocity.x;
+            this->velocity.x *= -1;
             this->position.x = windowWidth - this->size.x;
         }
         if (this->position.y <= 0.0f)
         {
-            this->velocity.y = -this->velocity.y;
+            this->velocity.y = -1.0f * abs(this->velocity.y);   // 解决阴阳玉嵌入自机内部而出现的碰撞检测问题
             this->position.y = 0.0f;
         }
         // if(this->position.y >= 480.0f)
         // {
-        //     this->velocity.y = -this->velocity.y;
+        //     this->velocity.y *= -1;
         //     this->position.y = 480.0f;
         // }
     }
