@@ -1,4 +1,4 @@
-#include "include/FairylandOfEasternSea.hpp"
+#include "include/fairyland_of_eastern_sea.hpp"
 
 /*程式入口*/
 int main()
@@ -48,35 +48,35 @@ int main()
     glEnable(GL_BLEND);                                // 启用混合功能
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // 混合因子
 
-    FairylandOfEasternSea.init();
-    float deltaTime = 0.0f;
-    float lastFrame = 0.0f;
+    fairyland_of_eastern_sea.init();
+    float delta_time = 0.0f;
+    float last_frame = 0.0f;
 
-    FairylandOfEasternSea.state = GAME_ACTIVE;
+    fairyland_of_eastern_sea.state = GAME_ACTIVE;
 
     /*窗体window的任务*/
     while (!glfwWindowShouldClose(window))
     {
-        float currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
+        float current_frame = glfwGetTime();
+        delta_time = current_frame - last_frame;
+        last_frame = current_frame;
         glfwPollEvents(); // 接收事件
 
         /* 处理输入事件 */
-        FairylandOfEasternSea.processInput(deltaTime);
+        fairyland_of_eastern_sea.process_input(delta_time);
 
-        FairylandOfEasternSea.update(deltaTime);
+        fairyland_of_eastern_sea.update(delta_time);
 
         /* 渲染 */
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // 指定清屏用颜色（RGBA）
         glClear(GL_COLOR_BUFFER_BIT);         // 指定清理的暂存区
 
-        FairylandOfEasternSea.render();
+        fairyland_of_eastern_sea.render();
 
         glfwSwapBuffers(window); // 交换双暂存区
     }
 
-    resourceManager::clear();
+    resource_manager::clear();
 
     glfwTerminate();
 
@@ -100,11 +100,11 @@ void key_callback(GLFWwindow *window, int32_t key, int32_t scancode, int32_t act
     {
         if (action == GLFW_PRESS)
         {
-            FairylandOfEasternSea.keys[key] = GL_TRUE;
+            fairyland_of_eastern_sea.keys[key] = GL_TRUE;
         }
         else if (action == GLFW_RELEASE)
         {
-            FairylandOfEasternSea.keys[key] = GL_FALSE;
+            fairyland_of_eastern_sea.keys[key] = GL_FALSE;
         }
     }
 

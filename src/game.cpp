@@ -1,102 +1,102 @@
 #include "include/game.hpp"
-#include "include/gameObject.hpp"
-#include "include/playableCharacter.hpp"
-#include "include/onmyouDama.hpp"
-#include "include/resourceManager.hpp"
-#include "include/spriteRenderer.hpp"
+#include "include/game_object.hpp"
+#include "include/playable_character.hpp"
+#include "include/onmyou_dama.hpp"
+#include "include/resource_manager.hpp"
+#include "include/sprite_renderer.hpp"
 #include "include/physics.hpp"
 
-spriteRenderer *SpriteRenderer;
-playableCharacter *PlayableCharacter; //自机，非判定点
-onmyouDama *OnmyouDama;
+sprite_renderer *sprite_renderer_obj;
+playable_character *playable_character_obj; //自机，非判定点
+onmyou_dama *onmyou_dama_obj;
 
 // game objects
 // 自机初始位置
-glm::vec2 playableCharacterPos = glm::vec2(320.0f, 448.0f);
+glm::vec2 playable_character_pos = glm::vec2(320.0f, 448.0f);
 // 自机模型大小
-glm::vec2 playableCharacterSize = glm::vec2(28.0f, 32.0f);
+glm::vec2 playable_character_size = glm::vec2(28.0f, 32.0f);
 // 阴阳玉速度
-// const glm::vec2 damaVelocity(100.0f, -350.0f);
-const glm::vec2 damaVelocity(80.0f, -275.0f);
+// const glm::vec2 dama_velocity(100.0f, -350.0f);
+const glm::vec2 dama_velocity(80.0f, -275.0f);
 // 阴阳玉半径
-const float damaRadius = 12.5f;
+const float dama_radius = 12.5f;
 
-glm::vec2 damaPos = playableCharacterPos + glm::vec2(playableCharacterSize.x / 2.0f - damaRadius,
-                                                     -damaRadius * 2.0f);
+glm::vec2 dama_pos = playable_character_pos + glm::vec2(playable_character_size.x / 2.0f - dama_radius,
+                                                     -dama_radius * 2.0f);
 
 /* 建构函数，指定信息*/
 game::game(uint32_t width, uint32_t height, uint32_t playable_zone_x, uint32_t playable_zone_y, uint32_t playable_width, uint32_t playable_hight)
-    : state(GAME_ACTIVE), keys(), width(width), height(height), playableZoneX(playable_zone_x), playableZoneY(playable_zone_y), playableWidth(playable_width), playableHight(playable_hight)
+    : state(GAME_ACTIVE), keys(), width(width), height(height), playable_zone_x(playable_zone_x), playable_zone_y(playable_zone_y), playable_width(playable_width), playable_hight(playable_hight)
 {
 }
 
 game::~game()
 {
 
-    delete SpriteRenderer;
-    delete PlayableCharacter;
-    delete OnmyouDama;
+    delete sprite_renderer_obj;
+    delete playable_character_obj;
+    delete onmyou_dama_obj;
 }
 
 void game::init()
 {
     /*加载着色器*/
-    resourceManager::loadShader("../src/GLSL/vertexSource.glsl", "../src/GLSL/fragmentSource.glsl", nullptr, "sprite");
+    resource_manager::load_shader("../src/GLSL/vertex_source.glsl", "../src/GLSL/fragment_source.glsl", nullptr, "sprite");
     /*配置Iro iro no Trans or scale矩阵与着色器*/
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(this->width),
                                       static_cast<float>(this->height), 0.0f, -1.0f, 1.0f);
 
-    resourceManager::getShader("sprite").use().setInteger32("image", 0);
-    resourceManager::getShader("sprite").setMatrix4("projection", projection);
+    resource_manager::get_shader("sprite").use().set_integer_32("image", 0);
+    resource_manager::get_shader("sprite").set_matrix_4("projection", projection);
     /*加载纹理*/
-    resourceManager::loadTexture("../src/assets/playable.png", true, "playable");
-    resourceManager::loadTexture("../src/assets/background.png", true, "background");
-    resourceManager::loadTexture("../src/assets/texture.png", true, "texture");
+    resource_manager::load_texture("../src/assets/playable.png", true, "playable");
+    resource_manager::load_texture("../src/assets/background.png", true, "background");
+    resource_manager::load_texture("../src/assets/texture.png", true, "texture");
     /*渲染*/
-    SpriteRenderer = new spriteRenderer(resourceManager::getShader("sprite"));
+    sprite_renderer_obj = new sprite_renderer(resource_manager::get_shader("sprite"));
 
-    PlayableCharacter = new playableCharacter(playableCharacterPos, playableCharacterSize, resourceManager::getTexture("playable"), glm::vec2(4.0f, 3.0f), glm::vec2(28.0f, 32.0f), glm::vec2(312.0f, 244.0f));
+    playable_character_obj = new playable_character(playable_character_pos, playable_character_size, resource_manager::get_texture("playable"), glm::vec2(4.0f, 3.0f), glm::vec2(28.0f, 32.0f), glm::vec2(312.0f, 244.0f));
 
     // load stages
-    gameStage one;
+    game_stage one;
     one.load("../src/assets/stage0", this->width, this->height / 2);
-    // gameStage two; two.load("../src/assets/stage1", this->width, this->height / 2);
-    // gameStage three; three.load("../src/assets/stage2", this->width, this->height / 2);
-    // gameStage four; four.load("../src/assets/stage3", this->width, this->height / 2);
+    // game_stage two; two.load("../src/assets/stage1", this->width, this->height / 2);
+    // game_stage three; three.load("../src/assets/stage2", this->width, this->height / 2);
+    // game_stage four; four.load("../src/assets/stage3", this->width, this->height / 2);
     this->stages.push_back(one);
     // this->stages.push_back(two);
     // this->stages.push_back(three);
     // this->stages.push_back(four);
     this->stage = 0;
 
-    OnmyouDama = new onmyouDama(damaPos, glm::vec2(130.0f, 212.0f), glm::vec2(27.0f, 27.0f), glm::vec2(312.0f, 244.0f), damaRadius, damaVelocity, resourceManager::getTexture("playable"));
+    onmyou_dama_obj = new onmyou_dama(dama_pos, glm::vec2(130.0f, 212.0f), glm::vec2(27.0f, 27.0f), glm::vec2(312.0f, 244.0f), dama_radius, dama_velocity, resource_manager::get_texture("playable"));
 
     return;
 }
 
-void game::update(float deltaT)
+void game::update(float delta_t)
 {
-    OnmyouDama->move(deltaT, this->width);
-    if (!OnmyouDama->stuck)
+    onmyou_dama_obj->move(delta_t, this->width);
+    if (!onmyou_dama_obj->stuck)
     {
-        this->doCollisionCheck();
+        this->do_collision_check();
     }
 
-    if (OnmyouDama->position.y >= this->height) // did ball reach bottom edge?
+    if (onmyou_dama_obj->position.y >= this->height) // did ball reach bottom edge?
     {
         std::cout << "Reset required!" << std::endl;
-        this->rstStage();
-        this->rstPC();
+        this->rst_stage();
+        this->rst_pc();
     }
 
     return;
 }
 
-void game::processInput(float deltaT)
+void game::process_input(float delta_t)
 {
     if (this->state == GAME_ACTIVE)
     {
-        float velocity = playableCharacterVelocity * deltaT;
+        float velocity = playable_character_velocity * delta_t;
         // 控制
 
         if (this->keys[GLFW_KEY_LEFT_SHIFT] || this->keys[GLFW_KEY_RIGHT_SHIFT])
@@ -105,62 +105,62 @@ void game::processInput(float deltaT)
         }
         if (this->keys[GLFW_KEY_LEFT])
         {
-            if (PlayableCharacter->position.x >= this->playableZoneX)
+            if (playable_character_obj->position.x >= this->playable_zone_x)
             {
-                // std::cout << PlayableCharacter->position.x << std::endl;
-                PlayableCharacter->texPos.x = 37;
-                PlayableCharacter->mirror = true;
-                PlayableCharacter->status = 1;
-                PlayableCharacter->position.x -= velocity;
+                // std::cout << playable_character_obj->position.x << std::endl;
+                playable_character_obj->tex_pos.x = 37;
+                playable_character_obj->mirror = true;
+                playable_character_obj->status = 1;
+                playable_character_obj->position.x -= velocity;
 
-                if (OnmyouDama->stuck)
+                if (onmyou_dama_obj->stuck)
                 {
-                    OnmyouDama->position.x -= velocity;
+                    onmyou_dama_obj->position.x -= velocity;
                 }
             }
         }
         if (this->keys[GLFW_KEY_RIGHT])
         {
-            if (PlayableCharacter->position.x <= this->playableZoneX + playableWidth - PlayableCharacter->size.x)
+            if (playable_character_obj->position.x <= this->playable_zone_x + playable_width - playable_character_obj->size.x)
             { // 边界控制：似乎自机左上角一点为自机座标。
-                // std::cout << PlayableCharacter->position.x << std::endl;
-                PlayableCharacter->texPos.x = 37;
-                PlayableCharacter->mirror = false;
-                PlayableCharacter->status = 1;
-                PlayableCharacter->position.x += velocity;
+                // std::cout << playable_character_obj->position.x << std::endl;
+                playable_character_obj->tex_pos.x = 37;
+                playable_character_obj->mirror = false;
+                playable_character_obj->status = 1;
+                playable_character_obj->position.x += velocity;
 
-                if (OnmyouDama->stuck)
+                if (onmyou_dama_obj->stuck)
                 {
-                    OnmyouDama->position.x += velocity;
+                    onmyou_dama_obj->position.x += velocity;
                 }
             }
         }
         if (!this->keys[GLFW_KEY_LEFT] && !this->keys[GLFW_KEY_RIGHT])
         {
-            PlayableCharacter->texPos.x = 4;
-            PlayableCharacter->mirror = false;
-            PlayableCharacter->status = 0;
+            playable_character_obj->tex_pos.x = 4;
+            playable_character_obj->mirror = false;
+            playable_character_obj->status = 0;
         }
         if (this->keys[GLFW_KEY_SPACE])
         {
-            OnmyouDama->stuck = false;
+            onmyou_dama_obj->stuck = false;
         }
         if (this->keys[GLFW_KEY_R])
         {
             std::cout << "Reset received!" << std::endl;
-            this->rstPC();
-            this->rstStage();
+            this->rst_pc();
+            this->rst_stage();
         }
         /*
         if (this->Keys[GLFW_KEY_UP])
         {
-            if (PlayableCharacter->position.y >= this->playableZoneY)
-            PlayableCharacter->position.y -= velocity;
+            if (playable_character_obj->position.y >= this->playable_zone_y)
+            playable_character_obj->position.y -= velocity;
         }
         if (this->Keys[GLFW_KEY_DOWN])
         {
-            if (PlayableCharacter->position.y <= this->playableZoneY + playableHight - PlayableCharacter->size.y)
-            PlayableCharacter->position.y += velocity;
+            if (playable_character_obj->position.y <= this->playable_zone_y + playable_hight - playable_character_obj->size.y)
+            playable_character_obj->position.y += velocity;
         }
         */
     }
@@ -171,93 +171,93 @@ void game::processInput(float deltaT)
 void game::render()
 {
     //参数：texture 位置坐标 大小 贴图坐标 贴图大小 贴图原图大小 【旋转】【颜色】
-    // SpriteRenderer->drawSprite(resourceManager::getTexture("PlayableCharacter"), glm::vec2(320, 32), glm::vec2(static_cast<float>(this->width)/20,
+    // sprite_renderer_obj->draw_sprite(resource_manager::get_texture("playable_character_obj"), glm::vec2(320, 32), glm::vec2(static_cast<float>(this->width)/20,
     //                                  static_cast<float>(this->height)/10), glm::vec2(0.0f, 0.0f), glm::vec2(32.0f, 48.0f), glm::vec2(256.0f, 256.0f));
 
     if (this->state == GAME_ACTIVE)
     {
         // background
-        SpriteRenderer->drawSprite(resourceManager::getTexture("background"), glm::vec2(0, 0), glm::vec2(static_cast<float>(this->width), static_cast<float>(this->height)), glm::vec2(0, 0), glm::vec2(640.0f, 480.0f), glm::vec2(640.0f, 480.0f), 0, glm::vec3(0, 0, 0));
+        sprite_renderer_obj->draw_sprite(resource_manager::get_texture("background"), glm::vec2(0, 0), glm::vec2(static_cast<float>(this->width), static_cast<float>(this->height)), glm::vec2(0, 0), glm::vec2(640.0f, 480.0f), glm::vec2(640.0f, 480.0f), 0, glm::vec3(0, 0, 0));
 
-        // playableCharacter
-        PlayableCharacter->draw(*SpriteRenderer);
+        // playable_character
+        playable_character_obj->draw(*sprite_renderer_obj);
 
         // stage
-        this->stages[this->stage].draw(*SpriteRenderer);
+        this->stages[this->stage].draw(*sprite_renderer_obj);
 
-        // OnmyouDama
-        OnmyouDama->draw(*SpriteRenderer);
+        // onmyou_dama_obj
+        onmyou_dama_obj->draw(*sprite_renderer_obj);
     }
 
     return;
 }
 
-void game::doCollisionCheck()
+void game::do_collision_check()
 {
-    for (gameObject &obj : this->stages[this->stage].bricks)
+    for (game_object &obj : this->stages[this->stage].bricks)
     {
         if (!obj.destroyed)
         {
-            collision Collision = physics::collisionCheck(*OnmyouDama, obj);
-            if (std::get<0>(Collision)) // bool值：是否碰撞
+            collision collision_obj = physics::collision_check(*onmyou_dama_obj, obj);
+            if (std::get<0>(collision_obj)) // bool值：是否碰撞
             {
-                if (!obj.isSolid)
+                if (!obj.is_solid)
                 {
                     obj.destroyed = true;
                 }
                 // 碰撞相关
-                direction direc = std::get<1>(Collision);
-                glm::vec2 diffVec = std::get<2>(Collision);
+                direction direc = std::get<1>(collision_obj);
+                glm::vec2 diff_vec = std::get<2>(collision_obj);
                 if (direc == LEFT || direc == RIGHT) // 水平碰撞
                 {
-                    OnmyouDama->velocity.x *= -1; // 反向水平速度
-                    float penetration = OnmyouDama->radius - std::abs(diffVec.x);
+                    onmyou_dama_obj->velocity.x *= -1; // 反向水平速度
+                    float penetration = onmyou_dama_obj->radius - std::abs(diff_vec.x);
                     if (direc == LEFT)
                     {
-                        OnmyouDama->position.x += penetration; // 恢复阴阳玉位置
+                        onmyou_dama_obj->position.x += penetration; // 恢复阴阳玉位置
                     }
                     else
                     {
-                        OnmyouDama->position.x -= penetration;
+                        onmyou_dama_obj->position.x -= penetration;
                     }
                 }
                 else // 竖直碰撞
                 {
-                    OnmyouDama->velocity.y *= -1; // 反向竖直速度
-                    float penetration = OnmyouDama->radius - std::abs(diffVec.y);
+                    onmyou_dama_obj->velocity.y *= -1; // 反向竖直速度
+                    float penetration = onmyou_dama_obj->radius - std::abs(diff_vec.y);
                     if (direc == UP)
                     {
 
-                        OnmyouDama->position.y -= penetration;
+                        onmyou_dama_obj->position.y -= penetration;
                     }
                     else
                     {
-                        OnmyouDama->position.y += penetration;
+                        onmyou_dama_obj->position.y += penetration;
                     }
                 }
             }
         }
     }
 
-    collision result = physics::collisionCheck(*OnmyouDama, *PlayableCharacter);
-    if (!OnmyouDama->stuck && std::get<0>(result))
+    collision result = physics::collision_check(*onmyou_dama_obj, *playable_character_obj);
+    if (!onmyou_dama_obj->stuck && std::get<0>(result))
     {
         // 碰撞力度与碰撞点与自机中心点之间的距离有关。
-        float PCcentre = PlayableCharacter->position.x + PlayableCharacter->size.x / 2.0f; // 自机水平中心
-        float distance = (OnmyouDama->position.x + OnmyouDama->radius) - PCcentre;         // 碰撞距离
-        float percentage = distance / (PlayableCharacter->size.x / 2.0f);                  // 碰撞力度系数
+        float PCcentre = playable_character_obj->position.x + playable_character_obj->size.x / 2.0f; // 自机水平中心
+        float distance = (onmyou_dama_obj->position.x + onmyou_dama_obj->radius) - PCcentre;         // 碰撞距离
+        float percentage = distance / (playable_character_obj->size.x / 2.0f);                  // 碰撞力度系数
         // 碰撞力度
         float strength = 2.0f;
-        glm::vec2 oldVelocity = OnmyouDama->velocity;
-        OnmyouDama->velocity.x = damaVelocity.x * percentage * strength;
-        OnmyouDama->velocity.y *= -1;
-        OnmyouDama->velocity = glm::normalize(OnmyouDama->velocity) * glm::length(oldVelocity);
+        glm::vec2 oldVelocity = onmyou_dama_obj->velocity;
+        onmyou_dama_obj->velocity.x = dama_velocity.x * percentage * strength;
+        onmyou_dama_obj->velocity.y *= -1;
+        onmyou_dama_obj->velocity = glm::normalize(onmyou_dama_obj->velocity) * glm::length(oldVelocity);
     }
 
     return;
 }
 
-void game::rstStage()
+void game::rst_stage()
 {
     if (this->stage == 0)
     {
@@ -280,10 +280,10 @@ void game::rstStage()
     }
 }
 
-void game::rstPC()
+void game::rst_pc()
 {
-    // reset playableCharacter/ball stats
-    PlayableCharacter->size = playableCharacterSize;
-    PlayableCharacter->position = glm::vec2(this->width / 2.0f - playableCharacterSize.x / 2.0f, this->height - playableCharacterSize.y);
-    OnmyouDama->reset(PlayableCharacter->position + glm::vec2(playableCharacterSize.x / 2.0f - damaRadius, -(damaRadius * 2.0f)), damaVelocity);
+    // reset playable_character/ball stats
+    playable_character_obj->size = playable_character_size;
+    playable_character_obj->position = glm::vec2(this->width / 2.0f - playable_character_size.x / 2.0f, this->height - playable_character_size.y);
+    onmyou_dama_obj->reset(playable_character_obj->position + glm::vec2(playable_character_size.x / 2.0f - dama_radius, -(dama_radius * 2.0f)), dama_velocity);
 }

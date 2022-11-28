@@ -5,167 +5,167 @@
 
 shader &shader::use()
 {
-    glUseProgram(this->ID);
+    glUseProgram(this->id);
     return *this;
 }
 
 shader::shader() {}
 
-void shader::compile(const char *vertexSource, const char *fragmentSource, const char *geometrySource)
+void shader::compile(const char *vertex_source, const char *fragment_source, const char *geometry_source)
 {
-    uint32_t sVertex, sFragment, gShader;
+    uint32_t vertex_shader, fragment_shader, geometry_shader;
     // 顶点着色器
-    sVertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(sVertex, 1, &vertexSource, NULL);
-    glCompileShader(sVertex);
-    checkCompileErrors(sVertex, "VERTEX");
+    vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertex_shader, 1, &vertex_source, NULL);
+    glCompileShader(vertex_shader);
+    check_compile_errors(vertex_shader, "VERTEX");
     // 片段着色器
-    sFragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(sFragment, 1, &fragmentSource, NULL);
-    glCompileShader(sFragment);
-    checkCompileErrors(sFragment, "FRAGMENT");
+    fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragment_shader, 1, &fragment_source, NULL);
+    glCompileShader(fragment_shader);
+    check_compile_errors(fragment_shader, "FRAGMENT");
     // 编译可有可无的几何着色器
-    if (geometrySource != nullptr)
+    if (geometry_source != nullptr)
     {
-        gShader = glCreateShader(GL_GEOMETRY_SHADER);
-        glShaderSource(gShader, 1, &geometrySource, NULL);
-        glCompileShader(gShader);
-        checkCompileErrors(gShader, "GEOMETRY");
+        geometry_shader = glCreateShader(GL_GEOMETRY_SHADER);
+        glShaderSource(geometry_shader, 1, &geometry_source, NULL);
+        glCompileShader(geometry_shader);
+        check_compile_errors(geometry_shader, "GEOMETRY");
     }
     // 着色器应用程式
-    this->ID = glCreateProgram();
-    glAttachShader(this->ID, sVertex);
-    glAttachShader(this->ID, sFragment);
-    if (geometrySource != nullptr)
+    this->id = glCreateProgram();
+    glAttachShader(this->id, vertex_shader);
+    glAttachShader(this->id, fragment_shader);
+    if (geometry_source != nullptr)
     {
-        glAttachShader(this->ID, gShader);
+        glAttachShader(this->id, geometry_shader);
     }
-    glLinkProgram(this->ID);
-    checkCompileErrors(this->ID, "PROGRAM");
+    glLinkProgram(this->id);
+    check_compile_errors(this->id, "PROGRAM");
     // 删除已连结的着色器
-    glDeleteShader(sVertex);
-    glDeleteShader(sFragment);
-    if (geometrySource != nullptr)
+    glDeleteShader(vertex_shader);
+    glDeleteShader(fragment_shader);
+    if (geometry_source != nullptr)
     {
-        glDeleteShader(gShader);
+        glDeleteShader(geometry_shader);
     }
 
     return;
 }
 
-void shader::setFloat(const char *name, float value, bool useShader)
+void shader::set_float(const char *name, float value, bool use_shader)
 {
-    if (useShader)
+    if (use_shader)
     {
         this->use();
     }
-    glUniform1f(glGetUniformLocation(this->ID, name), value);
+    glUniform1f(glGetUniformLocation(this->id, name), value);
 
     return;
 }
-void shader::setInteger32(const char *name, int value, bool useShader)
+void shader::set_integer_32(const char *name, int value, bool use_shader)
 {
-    if (useShader)
+    if (use_shader)
     {
         this->use();
     }
-    glUniform1i(glGetUniformLocation(this->ID, name), value);
+    glUniform1i(glGetUniformLocation(this->id, name), value);
 
     return;
 }
-void shader::setVector2f(const char *name, float x, float y, bool useShader)
+void shader::set_vector_2f(const char *name, float x, float y, bool use_shader)
 {
-    if (useShader)
+    if (use_shader)
     {
         this->use();
     }
-    glUniform2f(glGetUniformLocation(this->ID, name), x, y);
+    glUniform2f(glGetUniformLocation(this->id, name), x, y);
 
     return;
 }
-void shader::setVector2f(const char *name, const glm::vec2 &value, bool useShader)
+void shader::set_vector_2f(const char *name, const glm::vec2 &value, bool use_shader)
 {
-    if (useShader)
+    if (use_shader)
     {
         this->use();
     }
-    glUniform2f(glGetUniformLocation(this->ID, name), value.x, value.y);
+    glUniform2f(glGetUniformLocation(this->id, name), value.x, value.y);
 
     return;
 }
-void shader::setVector3f(const char *name, float x, float y, float z, bool useShader)
+void shader::set_vector_3f(const char *name, float x, float y, float z, bool use_shader)
 {
-    if (useShader)
+    if (use_shader)
     {
         this->use();
     }
-    glUniform3f(glGetUniformLocation(this->ID, name), x, y, z);
+    glUniform3f(glGetUniformLocation(this->id, name), x, y, z);
 
     return;
 }
-void shader::setVector3f(const char *name, const glm::vec3 &value, bool useShader)
+void shader::set_vector_3f(const char *name, const glm::vec3 &value, bool use_shader)
 {
-    if (useShader)
+    if (use_shader)
     {
         this->use();
     }
-    glUniform3f(glGetUniformLocation(this->ID, name), value.x, value.y, value.z);
+    glUniform3f(glGetUniformLocation(this->id, name), value.x, value.y, value.z);
 
     return;
 }
-void shader::setVector4f(const char *name, float x, float y, float z, float w, bool useShader)
+void shader::set_vector_4f(const char *name, float x, float y, float z, float w, bool use_shader)
 {
-    if (useShader)
+    if (use_shader)
     {
         this->use();
     }
-    glUniform4f(glGetUniformLocation(this->ID, name), x, y, z, w);
+    glUniform4f(glGetUniformLocation(this->id, name), x, y, z, w);
 
     return;
 }
-void shader::setVector4f(const char *name, const glm::vec4 &value, bool useShader)
+void shader::set_vector_4f(const char *name, const glm::vec4 &value, bool use_shader)
 {
-    if (useShader)
+    if (use_shader)
     {
         this->use();
     }
-    glUniform4f(glGetUniformLocation(this->ID, name), value.x, value.y, value.z, value.w);
+    glUniform4f(glGetUniformLocation(this->id, name), value.x, value.y, value.z, value.w);
 
     return;
 }
-void shader::setMatrix4(const char *name, const glm::mat4 &matrix, bool useShader)
+void shader::set_matrix_4(const char *name, const glm::mat4 &matrix, bool use_shader)
 {
-    if (useShader)
+    if (use_shader)
     {
         this->use();
     }
-    glUniformMatrix4fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(matrix));
+    glUniformMatrix4fv(glGetUniformLocation(this->id, name), 1, false, glm::value_ptr(matrix));
 
     return;
 }
-void shader::setMatrix2(const char *name, const glm::mat2 &matrix, bool useShader)
+void shader::set_matrix_2(const char *name, const glm::mat2 &matrix, bool use_shader)
 {
-    if (useShader)
+    if (use_shader)
     {
         this->use();
     }
-    glUniformMatrix2fv(glGetUniformLocation(this->ID, name), 1, false, glm::value_ptr(matrix));
+    glUniformMatrix2fv(glGetUniformLocation(this->id, name), 1, false, glm::value_ptr(matrix));
 
     return;
 }
 
-void shader::checkCompileErrors(uint32_t object, std::string type)
+void shader::check_compile_errors(uint32_t object, std::string type)
 {
     int32_t success;
-    char infoLog[1024];
+    char info_log[1024];
     if (type != "PROGRAM")
     {
         glGetShaderiv(object, GL_COMPILE_STATUS, &success);
         if (!success)
         {
-            glGetShaderInfoLog(object, 1024, NULL, infoLog);
+            glGetShaderInfoLog(object, 1024, NULL, info_log);
             std::cout << "| [ERROR]Something went run when COMPILING Shader、エラーオブジェクトタイプは" << type << std::endl
-                      << infoLog << std::endl
+                      << info_log << std::endl
                       << "---------------------------------------------------------- "
                       << std::endl;
         }
@@ -175,9 +175,9 @@ void shader::checkCompileErrors(uint32_t object, std::string type)
         glGetProgramiv(object, GL_LINK_STATUS, &success);
         if (!success)
         {
-            glGetProgramInfoLog(object, 1024, NULL, infoLog);
+            glGetProgramInfoLog(object, 1024, NULL, info_log);
             std::cout << "| [ERROR]Something went run when LINKING Shader、エラーオブジェクトタイプは" << type << std::endl
-                      << infoLog << std::endl
+                      << info_log << std::endl
                       << "---------------------------------------------------------- "
                       << std::endl;
         }

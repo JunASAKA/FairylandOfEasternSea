@@ -12,27 +12,27 @@
 class shader
 {
 public:
-    // ID
-    uint32_t ID;
+    // id
+    uint32_t id;
     // 建构函数
     shader();
     // 使用（激活）着色器
     shader &use();
     // 用给定的源代码编译着色器
-    void compile(const char *vertexSource, const char *fragmentSource, const char *geometrySource = nullptr); // note: geometry source code is optional
+    void compile(const char *vertex_source, const char *fragment_source, const char *geometry_source = nullptr); // note: geometry source code is optional
     // 实用工具
-    void setFloat(const char *name, float value, bool useShader = false);
-    void setInteger32(const char *name, int32_t value, bool useShader = false);
-    void setVector2f(const char *name, float x, float y, bool useShader = false);
-    void setVector2f(const char *name, const glm::vec2 &value, bool useShader = false);
-    void setVector3f(const char *name, float x, float y, float z, bool useShader = false);
-    void setVector3f(const char *name, const glm::vec3 &value, bool useShader = false);
-    void setVector4f(const char *name, float x, float y, float z, float w, bool useShader = false);
-    void setVector4f(const char *name, const glm::vec4 &value, bool useShader = false);
-    void setMatrix4(const char *name, const glm::mat4 &matrix, bool useShader = false);
-    void setMatrix2(const char *name, const glm::mat2 &matrix, bool useShader = false);
+    void set_float(const char *name, float value, bool use_shader = false);
+    void set_integer_32(const char *name, int32_t value, bool use_shader = false);
+    void set_vector_2f(const char *name, float x, float y, bool use_shader = false);
+    void set_vector_2f(const char *name, const glm::vec2 &value, bool use_shader = false);
+    void set_vector_3f(const char *name, float x, float y, float z, bool use_shader = false);
+    void set_vector_3f(const char *name, const glm::vec3 &value, bool use_shader = false);
+    void set_vector_4f(const char *name, float x, float y, float z, float w, bool use_shader = false);
+    void set_vector_4f(const char *name, const glm::vec4 &value, bool use_shader = false);
+    void set_matrix_4(const char *name, const glm::mat4 &matrix, bool use_shader = false);
+    void set_matrix_2(const char *name, const glm::mat2 &matrix, bool use_shader = false);
 
 private:
     // 纠错用
-    void checkCompileErrors(uint32_t object, std::string type);
+    void check_compile_errors(uint32_t object, std::string type);
 };

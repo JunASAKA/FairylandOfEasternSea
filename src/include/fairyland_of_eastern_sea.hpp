@@ -7,7 +7,7 @@
 #include <GLFW/glfw3.h>
 
 #include "game.hpp"
-#include "resourceManager.hpp"
+#include "resource_manager.hpp"
 
 /* 宣告ＧＬＦＷ有关函数 */
 void key_callback(GLFWwindow *window, int32_t key, int32_t scancode, int32_t action,
@@ -21,5 +21,5 @@ const uint32_t PLAYABLE_ZONE_Y = 480; //自机移动范围左上角座标
 const uint32_t PLAYABLE_WIDTH = 640;
 const uint32_t PLAYABLE_HEIGHT = 0;
 
-game FairylandOfEasternSea(SCREEN_WIDTH, SCREEN_HEIGHT, PLAYABLE_ZONE_X, PLAYABLE_ZONE_Y, PLAYABLE_WIDTH, PLAYABLE_HEIGHT);
+game fairyland_of_eastern_sea(SCREEN_WIDTH, SCREEN_HEIGHT, PLAYABLE_ZONE_X, PLAYABLE_ZONE_Y, PLAYABLE_WIDTH, PLAYABLE_HEIGHT);
 void framebuffer_size_callback(GLFWwindow *window, int32_t width, int32_t height);

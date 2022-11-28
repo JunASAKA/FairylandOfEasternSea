@@ -1,18 +1,18 @@
 #include <iostream>
-#include "include/spriteRenderer.hpp"
+#include "include/sprite_renderer.hpp"
 
-spriteRenderer::spriteRenderer(class shader shader)
+sprite_renderer::sprite_renderer(class shader shader)
 {
     this->shader = shader;
-    this->initRenderData();
+    this->init_render_data();
 }
 
-spriteRenderer::~spriteRenderer()
+sprite_renderer::~sprite_renderer()
 {
-    glDeleteVertexArrays(1, &this->quadVAO);
+    glDeleteVertexArrays(1, &this->quad_vao);
 }
 
-void spriteRenderer::drawSprite(texture2D texture, glm::vec2 position, glm::vec2 size, glm::vec2 texPos, glm::vec2 texSize, glm::vec2 imageSize, float rotate, glm::vec3 colour, bool mirror)
+void sprite_renderer::draw_sprite(texture_2D texture, glm::vec2 position, glm::vec2 size, glm::vec2 tex_pos, glm::vec2 tex_size, glm::vec2 image_size, float rotate, glm::vec3 colour, bool mirror)
 {
 
     this->shader.use();
@@ -47,28 +47,28 @@ void spriteRenderer::drawSprite(texture2D texture, glm::vec2 position, glm::vec2
     model = glm::translate(model, glm::vec3(-0.5f * size.x, -0.5f * size.y, 0.0f)); // 将原点移回
     model = glm::scale(model, glm::vec3(size, 1.0f));                               // 缩放
 
-    this->shader.setMatrix4("model", model);
+    this->shader.set_matrix_4("model", model);
 
     glm::mat4 identity(1.0f);
-    glm::mat4 texScale = glm::scale(identity, glm::vec3(1.0f / imageSize.x * texSize.x, 1.0f / imageSize.y * texSize.y, 1.0f));
-    glm::mat4 texTrans = glm::translate(identity, glm::vec3(1.0f / imageSize.x * texPos.x, 1.0f / imageSize.y * texPos.y, 0.0f));
-    this->shader.setMatrix4("texScale", texScale);
-    this->shader.setMatrix4("texTrans", texTrans);
+    glm::mat4 tex_scale = glm::scale(identity, glm::vec3(1.0f / image_size.x * tex_size.x, 1.0f / image_size.y * tex_size.y, 1.0f));
+    glm::mat4 tex_trans = glm::translate(identity, glm::vec3(1.0f / image_size.x * tex_pos.x, 1.0f / image_size.y * tex_pos.y, 0.0f));
+    this->shader.set_matrix_4("tex_scale", tex_scale);
+    this->shader.set_matrix_4("tex_trans", tex_trans);
 
     // 渲染
-    this->shader.setVector3f("spriteColor", colour);
+    this->shader.set_vector_3f("sprite_colour", colour);
 
     glActiveTexture(GL_TEXTURE0);
     texture.bind();
 
-    glBindVertexArray(this->quadVAO);
+    glBindVertexArray(this->quad_vao);
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
 
     return;
 }
 
-void spriteRenderer::initRenderData()
+void sprite_renderer::init_render_data()
 {
     // 设置VAO与VBO
     uint32_t VBO;
@@ -82,13 +82,13 @@ void spriteRenderer::initRenderData()
         1.0f, 1.0f, 1.0f, 1.0f,
         1.0f, 0.0f, 1.0f, 0.0f};
 
-    glGenVertexArrays(1, &this->quadVAO);
+    glGenVertexArrays(1, &this->quad_vao);
     glGenBuffers(1, &VBO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glBindVertexArray(this->quadVAO);
+    glBindVertexArray(this->quad_vao);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void *)0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);

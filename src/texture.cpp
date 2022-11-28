@@ -3,33 +3,33 @@
 
 #include <iostream>
 
-texture2D::texture2D()
-    : width(0), height(0), Internal_Format(GL_RGB), Image_Format(GL_RGB), Wrap_S(GL_REPEAT), Wrap_T(GL_REPEAT), Filter_Min(GL_LINEAR), Filter_Max(GL_LINEAR)
+texture_2D::texture_2D()
+    : width(0), height(0), internal_format(GL_RGB), image_format(GL_RGB), wrap_s(GL_REPEAT), wrap_t(GL_REPEAT), filter_min(GL_LINEAR), filter_max(GL_LINEAR)
 {
-    glGenTextures(1, &this->ID);
+    glGenTextures(1, &this->id);
 }
 
-void texture2D::generate(uint32_t width, uint32_t height, unsigned char *data)
+void texture_2D::generate(uint32_t width, uint32_t height, unsigned char *data)
 {
     this->width = width;
     this->height = height;
     // 创建纹理
-    glBindTexture(GL_TEXTURE_2D, this->ID);
-    glTexImage2D(GL_TEXTURE_2D, 0, this->Internal_Format, width, height, 0, this->Image_Format, GL_UNSIGNED_BYTE, data);
+    glBindTexture(GL_TEXTURE_2D, this->id);
+    glTexImage2D(GL_TEXTURE_2D, 0, this->internal_format, width, height, 0, this->image_format, GL_UNSIGNED_BYTE, data);
     // 设置各种属性
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, this->Wrap_S);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, this->Wrap_T);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, this->Filter_Min);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, this->Filter_Max);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, this->wrap_s);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, this->wrap_t);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, this->filter_min);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, this->filter_max);
     // 解绑纹理
     glBindTexture(GL_TEXTURE_2D, 0);
 
     return;
 }
 
-const void texture2D::bind()
+const void texture_2D::bind()
 {
-    glBindTexture(GL_TEXTURE_2D, this->ID);
+    glBindTexture(GL_TEXTURE_2D, this->id);
 
     return;
 }
